@@ -1,9 +1,9 @@
-import "./Header.css";
+import "./Styles.css";
 
 function Header() {
   return (
     <header className="header">
-      <nav className="nav">
+      <nav className="header-nav">
         <a href="/" className="nav__link">
           Home
         </a>

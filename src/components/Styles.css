@@ -1,17 +1,18 @@
+/* Header */
 .header {
   background-color: #222;
   padding: 20px;
 }
-.nav {
+.header-nav {
   display: flex;
   justify-content: center;
   gap: 30px;
 }
-.nav a {
+.header-nav a {
   color: white;
   text-decoration: none;
   font-size: 18px;
 }
-.nav a:hover {
+.header-nav a:hover {
   text-decoration: underline;
 }
