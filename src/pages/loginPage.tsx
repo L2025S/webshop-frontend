@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useNavigate } from "react-router";
-import { login } from "../services/authService";
+import { login } from "../services/authService.ts";
 
 function Login() {
   const [username, setUsername] = useState("");
@@ -15,10 +15,11 @@ function Login() {
     try {
       await login({ username, password });
 
-      // Navigate to App after successful login
-      navigate("/");
+      // Navigate to WelcomeLoginPage after successful login
+      navigate("/welcome");
     } catch (error) {
-      setError("Inloggningen misslyckades: " + error);
+      console.error("Login failed:", error);
+      setError("Inloggningen misslyckades");
     }
   }
 
@@ -49,9 +50,7 @@ function Login() {
 
         {error && <p>{error}</p>}
 
-        <button type="submit">
-          Logga in
-        </button>
+        <button type="submit">Logga in</button>
       </form>
     </div>
   );

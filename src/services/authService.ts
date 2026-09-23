@@ -3,9 +3,7 @@ import type { LoginRequest, LoginResponse } from "../types/Auth.ts";
 const TOKEN_KEY = "accessToken";
 const API_BASE = import.meta.env.VITE_API_BASE_URL;
 
-export async function login(
-  credentials: LoginRequest
-): Promise<LoginResponse> {
+export async function login(credentials: LoginRequest): Promise<LoginResponse> {
   const response = await fetch(`${API_BASE}/auth/login`, {
     method: "POST",
     headers: {
