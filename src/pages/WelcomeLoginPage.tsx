@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router";
-import { getCurrentUser } from "../services/userService";
+import { getCurrentUser } from "../services/userService.ts";
 import type { User } from "../types/User";
 
 const WelcomeLoginPage = () => {
