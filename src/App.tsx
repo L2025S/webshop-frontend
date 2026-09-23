@@ -1,3 +1,4 @@
+import "./Styles.css";
 import Header from "./components/Header";
 
 const App = () => {
