@@ -1,14 +1,15 @@
-import "./Styles.css";
 import Header from "./components/Header";
 import { Route, Routes } from "react-router";
 import LoginPage from "./pages/LoginPage";
 import ProtectedRoute from "./components/ProtectedRoute";
 import WelcomeLoginPage from "./pages/testWLP";
+import Footer from "./components/Footer";
 
 const App = () => {
     return (
         <>
         <Header />
+        <main>
         <div>
             <h1>Webshop</h1>
         </div>
@@ -21,6 +22,8 @@ const App = () => {
               
             </Route>
         </Routes>
+        </main>
+        <Footer />
         </>
     );
 };
