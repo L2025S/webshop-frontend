@@ -1,5 +1,5 @@
 import { Navigate, Outlet } from "react-router";
-import { isAuthenticated } from "../services/authService.ts";
+import { isAuthenticated } from "../services/AuthService.ts";
 
 const ProtectedRoute = () => {
   if (!isAuthenticated()) {
@@ -8,6 +8,5 @@ const ProtectedRoute = () => {
 
   return <Outlet />;
 };
-
 
 export default ProtectedRoute;
