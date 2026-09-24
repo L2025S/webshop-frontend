@@ -19,7 +19,6 @@ const WelcomeLoginPage = () => {
       } catch (error) {
         // Redirect to login if the user is not authenticated
         console.error("Failed to load user:", error);
-        navigate("/login", { replace: true });
       } finally {
         // Stop showing the loading state
         setLoading(false);
@@ -27,7 +26,7 @@ const WelcomeLoginPage = () => {
     }
 
     loadUser();
-  }, [navigate]);
+  }, []);
 
   // Show a loading message while fetching the user
   if (loading) {
