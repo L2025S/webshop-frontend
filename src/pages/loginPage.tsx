@@ -27,36 +27,45 @@ function Login() {
   }
 
   return (
-    <div>
-      <h1>Login</h1>
-
-      <form onSubmit={handleSubmit}>
-        <div>
-          <label htmlFor="username">Username</label>
-          <input
-            id="username"
-            type="text"
-            value={username}
-            onChange={(e) => setUsername(e.target.value)}
-          />
+    <main className="login-page">
+      <section className="login-card">
+        <div className="login-header">
+          <h1>Welcome back</h1>
+          <p>Log in to continue</p>
         </div>
 
-        <div>
-          <label htmlFor="password">Password</label>
-          <input
-            id="password"
-            type="password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-          />
-        </div>
+        <form onSubmit={handleSubmit} className="login-form">
+          <div className="form-group">
+            <label htmlFor="username">Username</label>
+            <input
+              id="username"
+              type="text"
+              placeholder="Enter your username"
+              value={username}
+              onChange={(e) => setUsername(e.target.value)}
+            />
+          </div>
 
-        {/* Show the error message when login fails */}
-        {error && <p>{error}</p>}
+          <div className="form-group">
+            <label htmlFor="password">Password</label>
+            <input
+              id="password"
+              type="password"
+              placeholder="Enter your password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+            />
+          </div>
 
-        <button type="submit">Logga in</button>
-      </form>
-    </div>
+          {/* Show the error message when login fails */}
+          {error && <p className="login-error">{error}</p>}
+
+          <button type="submit" className="login-button">
+            Logga in
+          </button>
+        </form>
+      </section>
+    </main>
   );
 }
 
