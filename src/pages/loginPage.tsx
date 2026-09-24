@@ -9,15 +9,18 @@ function Login() {
 
   const navigate = useNavigate();
 
+  // Handle the login form submission
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
 
     try {
+      // Log in and store the access token
       await login({ username, password });
 
-      // Navigate to WelcomeLoginPage after successful login
+      // Navigate to the welcome page after successful login
       navigate("/welcome");
     } catch (error) {
+      // Display an error message if login fails
       console.error("Login failed:", error);
       setError("Inloggningen misslyckades");
     }
@@ -48,6 +51,7 @@ function Login() {
           />
         </div>
 
+        {/* Show the error message when login fails */}
         {error && <p>{error}</p>}
 
         <button type="submit">Logga in</button>
