@@ -2,16 +2,16 @@ function Header() {
   return (
     <header className="header">
       <nav className="header-nav">
-        <a href="/" className="nav__link">
+        <a href="/">
           Home
         </a>
-        <a href="/products" className="nav__link">
+        <a href="/products">
           Products
         </a>
-        <a href="/cart" className="nav__link">
+        <a href="/cart">
           Cart
         </a>
-        <a href="/login" className="nav__link">
+        <a href="/login">
           Login
         </a>
       </nav>
