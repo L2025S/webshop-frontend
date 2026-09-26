@@ -16,7 +16,7 @@ export async function fetchAllProducts(): Promise<Product[]> {
         response = await fetch (`${PRODUCT_SERVICE_URL}/products/all`, {
             method:"GET",
             headers: {
-                Authorization:`Bearer ${token}`,
+               ...(token ? {Authorization: `Bearer ${token}` } : {}),
                 "Content-Type": "application/json",
             },
         });
