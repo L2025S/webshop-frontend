@@ -17,7 +17,7 @@ export default function ProductCard({product}: ProductCardProps){
             className="product-card_image"
              />
             <p className="product-card_description">{product.description}</p>
-            <span className="product-card_tag">${product.price}</span>
+            <span className="product-card_tag">{product.price} SEK</span>
             <div className="product-card_footer">
                 <span className={isOutOfStock ? "product-card_stock-out" : ""}>
                     {isOutOfStock ? "Out of Stock" : `${product.stock} in stock`}
