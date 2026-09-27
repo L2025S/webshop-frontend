@@ -11,6 +11,11 @@ export default function ProductCard({product}: ProductCardProps){
     return(
         <li className="product-card">
             <h2 className="product-card_name">{product.name}</h2>
+            <img 
+            src={product.imageUrl ??  "/placeholder-product.png"}
+            alt={product.name}
+            className="product-card_image"
+             />
             <p className="product-card_description">{product.description}</p>
             <span className="product-card_tag">${product.price}</span>
             <div className="product-card_footer">
