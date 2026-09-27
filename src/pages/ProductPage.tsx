@@ -2,6 +2,8 @@ import { useEffect, useState } from "react";
 import { fetchAllProducts  } from "../services/productService";
 import { ApiError } from "../errors/ApiError";
 import type { Product } from "../types/Product";
+import ProductCard from "../components/ProductCard";
+import "./ProductPage.css";
 
 export default function ProductPage (){
 
@@ -37,37 +39,41 @@ export default function ProductPage (){
         loadProducts();
     }, []);
 
-    // State 1: loading
-
-    if (loading) {
-        return <p>Loading products...</p>;
-    }
-
-    // State 2: error
-    if (error) {
-        return <p style={{ color: "red" }}>{error}</p>;
-    }
-
-
-    // State 3: empty result
-    if (products.length === 0) {
-        return <p>No products available.</p>;
-    }
-
-    // State 4: display product list
+   
     return ( 
-    <div>
-        <h1>Products</h1>
-        <ul>{products.map((product) => (
-            <li key={product.id}>
-                <strong>{product.name}</strong> - ${product.price}
-                <br />
-                {product.description}
-                <br />
-                Stock: {product.stock}
-            </li>
-            ))}
-        </ul>
+    <div className="product-page">
+        <h1 className="product-page_heading">Products</h1>
+       
+        {!loading && !error && (
+            <p>
+                {products.length} {products.length === 1 ? "product" : "products"} available
+            </p>
+        )}
+
+        {loading && (
+            <p>Loading products...</p>
+        )}
+
+        {loading && error && (
+            <p>
+                {error}
+            </p>
+        )}
+
+        {!loading && !error && products.length === 0 &&(
+            <p>
+                No products available right now. Check back soon.
+            </p>
+        )}
+
+        {!loading && !error && products.length > 0 && (
+            <ul>
+                {products.map((product) => (
+                    <ProductCard key={product.id} product={product} />
+                ))}
+            </ul>
+        )}
+
     </div>
     );
 };

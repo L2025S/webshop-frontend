@@ -1,0 +1,48 @@
+.product-page {
+  background: #faf8f5;
+  color: #1e2a22;
+  padding: 2.5rem 1.5rem 4rem;
+  min-height: 60vh;
+}
+
+.product-page__heading {
+  font-size: 2rem;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+  margin: 0 0 0.4rem;
+}
+
+.product-page__count {
+  color: #5c6b60;
+  font-size: 0.95rem;
+  margin: 0 0 2rem;
+  border-bottom: 1px solid #dad3c6;
+  padding-bottom: 1.5rem;
+}
+
+.product-page__status {
+  max-width: 32rem;
+  padding: 1.25rem 1.5rem;
+  border: 1px solid #dad3c6;
+  background: #ffffff;
+}
+
+.product-page__status--error {
+  border-color: #b3492f;
+  color: #7a2f1d;
+  background: #fbf1ee;
+}
+
+.product-page__status--empty {
+  border-style: dashed;
+  color: #5c6b60;
+}
+
+.product-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(15rem, 1fr));
+  gap: 1.5rem;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
