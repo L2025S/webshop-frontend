@@ -3,6 +3,7 @@ import { fetchAllProducts  } from "../services/productService";
 import { ApiError } from "../errors/ApiError";
 import type { Product } from "../types/Product";
 import ProductCard from "../components/ProductCard";
+import "./ProductPage.css";
 
 export default function ProductPage (){
 
