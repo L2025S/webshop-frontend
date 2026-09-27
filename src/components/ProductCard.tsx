@@ -10,9 +10,9 @@ export default function ProductCard({product}: ProductCardProps){
 
     return(
         <li className="product-card">
-            <span className="product-card_tag">${product.price}</span>
             <h2 className="product-card_name">{product.name}</h2>
             <p className="product-card_description">{product.description}</p>
+            <span className="product-card_tag">${product.price}</span>
             <div className="product-card_footer">
                 <span className={isOutOfStock ? "product-card_stock-out" : ""}>
                     {isOutOfStock ? "Out of Stock" : `${product.stock} in stock`}
