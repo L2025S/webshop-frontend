@@ -45,29 +45,29 @@ export default function ProductPage (){
         <h1 className="product-page_heading">Products</h1>
        
         {!loading && !error && (
-            <p>
+            <p className="product-page_count">
                 {products.length} {products.length === 1 ? "product" : "products"} available
             </p>
         )}
 
         {loading && (
-            <p>Loading products...</p>
+            <p className="product-page_status">Loading products...</p>
         )}
 
-        {loading && error && (
-            <p>
+        {!loading && error && (
+            <p className="product-page_status product-page_status-error">
                 {error}
             </p>
         )}
 
         {!loading && !error && products.length === 0 &&(
-            <p>
+            <p className="product-page_status product-page_status-empty">
                 No products available right now. Check back soon.
             </p>
         )}
 
         {!loading && !error && products.length > 0 && (
-            <ul>
+            <ul className="product-grid">
                 {products.map((product) => (
                     <ProductCard key={product.id} product={product} />
                 ))}

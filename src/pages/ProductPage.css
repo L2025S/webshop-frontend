@@ -3,16 +3,23 @@
   color: #1e2a22;
   padding: 2.5rem 1.5rem 4rem;
   min-height: 60vh;
+
+  /* 🟢➜ NEW: force full width, but cap it and center it so cards don't stretch on ultra-wide screens */
+  width: 100%;
+  max-width: 75rem;
+  margin: 0 auto;
+  box-sizing: border-box;
 }
 
-.product-page__heading {
+
+.product-page_heading {
   font-size: 2rem;
   font-weight: 700;
   letter-spacing: -0.01em;
   margin: 0 0 0.4rem;
 }
 
-.product-page__count {
+.product-page_count {
   color: #5c6b60;
   font-size: 0.95rem;
   margin: 0 0 2rem;
@@ -20,29 +27,57 @@
   padding-bottom: 1.5rem;
 }
 
-.product-page__status {
+.product-page_status {
   max-width: 32rem;
   padding: 1.25rem 1.5rem;
   border: 1px solid #dad3c6;
   background: #ffffff;
 }
 
-.product-page__status--error {
+.product-page__status-error {
   border-color: #b3492f;
   color: #7a2f1d;
   background: #fbf1ee;
 }
 
-.product-page__status--empty {
+.product-page_status-empty {
   border-style: dashed;
   color: #5c6b60;
 }
 
 .product-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(15rem, 1fr));
+  /* 🟢➜ CHANGED: fixed 3 columns on wide screens (was auto-fill/minmax, which depends on container width).
+     minmax(0, 1fr) lets columns shrink evenly and prevents content from overflowing. */
+  grid-template-columns: repeat(3, minmax(0, 1fr));
   gap: 1.5rem;
   list-style: none;
   margin: 0;
   padding: 0;
+}
+
+/* ==================== Responsive ========================== */
+
+@media (max-width: 1024px) {
+  .product-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+/* Phone (<= 600px). Keep this AFTER the 1024px block so it overrides it. */
+@media (max-width: 600px) {
+  .product-page {
+    padding: 1.5rem 1rem 3rem;
+  }
+
+  /* 🟢➜ FIXED: class name now uses double underscore to match the base rule above */
+  .product-page__heading {
+    font-size: 1.5rem;
+  }
+
+  .product-grid {
+    /* 🟢➜ NEW: 1 card per row on phones */
+    grid-template-columns: 1fr;
+    gap: 1rem;
+  }
 }
