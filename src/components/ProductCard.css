@@ -6,9 +6,12 @@
   display: flex;
   flex-direction: column;
   gap: 0.5rem;
+
+  /* 🟢➜ NEW: include padding/border in the width so the card never overflows its grid column */
+  box-sizing: border-box;
 }
 
-.product-card__tag {
+.product-card_tag {
   position: absolute;
   top: -0.75rem;
   right: 1rem;
@@ -20,7 +23,7 @@
   line-height: 1;
 }
 
-.product-card__name {
+.product-card_name {
   font-size: 1.1rem;
   font-weight: 600;
   margin: 0.5rem 0 0;
@@ -33,7 +36,7 @@
   object-fit: cover;
 }
 
-.product-card__description {
+.product-card_description {
   color: #46564a;
   font-size: 0.9rem;
   line-height: 1.5;
@@ -41,7 +44,7 @@
   flex-grow: 1;
 }
 
-.product-card__footer {
+.product-card_footer {
   display: flex;
   justify-content: space-between;
   align-items: baseline;
@@ -51,7 +54,14 @@
   color: #5c6b60;
 }
 
-.product-card__stock--out {
+.product-card__stock-out {
   color: #b3492f;
   font-weight: 600;
+}
+/* ================ Responsive ======================
+/* 🟢➜ NEW: slightly shorter image on phones */
+@media (max-width: 600px) {
+  .product-card_image {
+    height: 140px;
+  }
 }
