@@ -46,3 +46,19 @@
   margin: 0;
   padding: 0;
 }
+
+/* ==================== Responsive ========================== */
+
+@media (max-width: 600px) {
+  .product-page {
+    padding: 1.5rem 1rem 3rem;
+  }
+
+  .product-page_heading {
+    font-size: 1.5rem;
+  }
+
+  .product-grid {
+    gap: 1rem;
+  }
+}
