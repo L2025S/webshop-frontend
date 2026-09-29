@@ -11,26 +11,27 @@ export default function CartPanel ({items, isOpen, onClose}: CartPanelProps) {
     if(!isOpen) return null;
 
     return (
-        <aside className="cart-panel" arial-label="Shopping Cart">
-            <div className="cart-panel_header">
-            <h2 className="cart-panel_title">Cart</h2>
+        <aside className="cart-panel" aria-label="Shopping Cart">
+            <div className="cart-panel__header">
+            <h2 className="cart-panel__title">Cart</h2>
             <button
             type="button"
             onClick={onClose}
             aria-label="Close cart"
+            className="cart-panel__close"
             >
                 ×
             </button>
             </div>
 
             {items.length === 0 ? (
-                <p className="cart-panel_empty">Your cart is empty.</p> 
+                <p className="cart-panel__empty">Your cart is empty.</p> 
             ) : (
-                <ul className="cart-pnael_list">
+                <ul className="cart-pnael__list">
                     {items.map(({product, quantity})=> (
-                        <li key={product.id} className="cart-panel_item">
-                            <span className="cart-panel_item-name">{product.name}</span>
-                            <span className="cart-pnael-item-qty">× {quantity}</span>
+                        <li key={product.id} className="cart-panel__item">
+                            <span className="cart-panel__item-name">{product.name}</span>
+                            <span className="cart-pnael__item-qty">× {quantity}</span>
                         </li>
                     ))}
                 </ul>
