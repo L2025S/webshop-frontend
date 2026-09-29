@@ -4,7 +4,6 @@
   padding: 2.5rem 1.5rem 4rem;
   min-height: 60vh;
 
-  /* 🟢➜ NEW: force full width, but cap it and center it so cards don't stretch on ultra-wide screens */
   width: 100%;
   max-width: 75rem;
   margin: 0 auto;
@@ -12,14 +11,16 @@
 }
 
 
-.product-page_heading {
+
+.product-page__heading {
   font-size: 2rem;
   font-weight: 700;
   letter-spacing: -0.01em;
   margin: 0 0 0.4rem;
 }
 
-.product-page_count {
+
+.product-page__count {
   color: #5c6b60;
   font-size: 0.95rem;
   margin: 0 0 2rem;
@@ -27,27 +28,30 @@
   padding-bottom: 1.5rem;
 }
 
-.product-page_status {
+.product-page__status {
   max-width: 32rem;
   padding: 1.25rem 1.5rem;
   border: 1px solid #dad3c6;
   background: #ffffff;
 }
 
-.product-page__status-error {
+
+.product-page__status--error {
   border-color: #b3492f;
   color: #7a2f1d;
   background: #fbf1ee;
 }
 
-.product-page_status-empty {
+
+.product-page__status--empty {
   border-style: dashed;
   color: #5c6b60;
 }
 
+
 .product-grid {
   display: grid;
-  /* 🟢➜ CHANGED: fixed 3 columns on wide screens (was auto-fill/minmax, which depends on container width).
+  /*  fixed 3 columns on wide screens (was auto-fill/minmax, which depends on container width).
      minmax(0, 1fr) lets columns shrink evenly and prevents content from overflowing. */
   grid-template-columns: repeat(3, minmax(0, 1fr));
   gap: 1.5rem;
@@ -70,13 +74,13 @@
     padding: 1.5rem 1rem 3rem;
   }
 
-  /* 🟢➜ FIXED: class name now uses double underscore to match the base rule above */
+ 
   .product-page__heading {
     font-size: 1.5rem;
   }
 
   .product-grid {
-    /* 🟢➜ NEW: 1 card per row on phones */
+    /* 1 card per row on phones */
     grid-template-columns: 1fr;
     gap: 1rem;
   }
