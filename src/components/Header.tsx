@@ -1,7 +1,12 @@
 import { Link, useNavigate } from "react-router";
 import { isAuthenticated, logout } from "../services/authService";
 
-function Header() {
+type HeaderProps = {
+  totalCount: number;
+  onToggleCart: ()=> void;
+}
+
+function Header({totalCount, onToggleCart}: HeaderProps) {
   const navigate = useNavigate();
   const authenticated = isAuthenticated();
 
@@ -21,10 +26,11 @@ function Header() {
           Products
         </Link>
 
-        <Link to="/cart">
-          Cart
-        </Link>
+        <button type="button" className="header-cart-button" onClick={onToggleCart}>
+          Cart({totalCount})
+        </button>
 
+  
         {authenticated ? (
           <button onClick={handleLogout} className="nav__button">
             Logout

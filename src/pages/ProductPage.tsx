@@ -5,7 +5,10 @@ import type { Product } from "../types/Product";
 import ProductCard from "../components/ProductCard";
 import "./ProductPage.css";
 
-export default function ProductPage (){
+type ProductPageProps = {
+    onAddToCart : (product: Product, quantity: number) => void;
+}
+export default function ProductPage ({onAddToCart}:ProductPageProps){
 
     const [products, setProducts] = useState<Product[]>([]);
     const [loading, setLoading] = useState(true);
@@ -42,26 +45,26 @@ export default function ProductPage (){
    
     return ( 
     <div className="product-page">
-        <h1 className="product-page_heading">Products</h1>
+        <h1 className="product-page__heading">Products</h1>
        
         {!loading && !error && (
-            <p className="product-page_count">
+            <p className="product-page__count">
                 {products.length} {products.length === 1 ? "product" : "products"} available
             </p>
         )}
 
         {loading && (
-            <p className="product-page_status">Loading products...</p>
+            <p className="product-page__status">Loading products...</p>
         )}
 
         {!loading && error && (
-            <p className="product-page_status product-page_status-error">
+            <p className="product-page__status product-page__status--error">
                 {error}
             </p>
         )}
 
         {!loading && !error && products.length === 0 &&(
-            <p className="product-page_status product-page_status-empty">
+            <p className="product-page__status product-page__status--empty">
                 No products available right now. Check back soon.
             </p>
         )}
@@ -69,7 +72,10 @@ export default function ProductPage (){
         {!loading && !error && products.length > 0 && (
             <ul className="product-grid">
                 {products.map((product) => (
-                    <ProductCard key={product.id} product={product} />
+                    <ProductCard 
+                    key={product.id} 
+                    product={product}
+                    onAddToCart={onAddToCart} />
                 ))}
             </ul>
         )}

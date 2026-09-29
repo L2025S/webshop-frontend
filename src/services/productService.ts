@@ -4,7 +4,7 @@ import { ApiError } from "../errors/ApiError";
 const PRODUCT_SERVICE_URL= import.meta.env.VITE_PRODUCT_SERVICE_URL;
 
 export async function fetchAllProducts(): Promise<Product[]> {
-    const token = sessionStorage.getItem("accessToken");
+    const token = localStorage.getItem("accessToken");
 
     if(!token) {
         throw new ApiError ("You are not logged in. Please log in to view products.");
