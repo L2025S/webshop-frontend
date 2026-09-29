@@ -25,6 +25,15 @@ main {
   text-decoration: underline;
 }
 
+/* CART BUTTON */
+.header-cart-button {
+  background: none;
+  border: none;
+  color: inherit;
+  font: inherit;
+  cursor: pointer;
+}
+
 /* Logout button */
 .header-nav .nav__button { 
   padding: 0; 
