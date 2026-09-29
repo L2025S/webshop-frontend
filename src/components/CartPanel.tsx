@@ -1,4 +1,5 @@
 import type { CartItem } from "../types/CartItem";
+import "./CartPanel.css"
 
 type CartPanelProps = {
     items: CartItem[];
@@ -8,10 +9,12 @@ type CartPanelProps = {
 
 export default function CartPanel ({items, isOpen, onClose}: CartPanelProps) {
 
-    if(!isOpen) return null;
 
     return (
-        <aside className="cart-panel" aria-label="Shopping Cart">
+        <aside 
+        className={isOpen? "cart-panel cart-panel--open": "cart-panel"}
+        aria-label="Shopping Cart"
+        aria-hidden={!isOpen}>
             <div className="cart-panel__header">
             <h2 className="cart-panel__title">Cart</h2>
             <button

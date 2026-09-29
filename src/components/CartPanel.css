@@ -11,6 +11,16 @@
   padding: 1.5rem 1.25rem;
   z-index: 1000;
   overflow-y: auto;
+
+  transform: translateX(100%);
+  visibility: hidden;
+  transition: transform 0.3s ease, visibility 0s linear 0.3s;
+}
+
+.cart-panel--open{
+  transform: translateX(0);
+  visibility: visible;
+  transition: transform 0.3s ease, visibility 0s;
 }
 
 
