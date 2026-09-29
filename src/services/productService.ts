@@ -6,9 +6,7 @@ const PRODUCT_SERVICE_URL= import.meta.env.VITE_PRODUCT_SERVICE_URL;
 export async function fetchAllProducts(): Promise<Product[]> {
     const token = localStorage.getItem("accessToken");
 
-    if(!token) {
-        throw new ApiError ("You are not logged in. Please log in to view products.");
-    }
+   
 
     let response: Response;
 
