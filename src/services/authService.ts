@@ -27,20 +27,20 @@ export async function login(credentials: LoginRequest): Promise<LoginResponse> {
   // Convert the response into a LoginResponse object
   const data: LoginResponse = await response.json();
 
-  // Store the access token for the current session
-  sessionStorage.setItem(TOKEN_KEY, data.accessToken);
+  // Keep the user logged in until they explicitly log out 
+  localStorage.setItem(TOKEN_KEY, data.accessToken);
 
   return data;
 }
 
 // Remove the access token when logging out
 export function logout(): void {
-  sessionStorage.removeItem(TOKEN_KEY);
+  localStorage.removeItem(TOKEN_KEY);
 }
 
 // Get the stored access token
 export function getToken(): string | null {
-  return sessionStorage.getItem(TOKEN_KEY);
+  return localStorage.getItem(TOKEN_KEY);
 }
 
 // Check if an access token exists
