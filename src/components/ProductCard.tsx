@@ -1,6 +1,6 @@
 import { useState } from "react";
 import type { Product } from "../types/Product";
-import "./ProductCard.css";
+import "../styles/ProductCard.css";
 
 type ProductCardProps = {
     product: Product;
