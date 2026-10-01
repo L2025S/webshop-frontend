@@ -1,5 +1,5 @@
 import type { CartItem } from "../types/CartItem";
-import "./CartPanel.css"
+import "../styles/CartPanel.css"
 
 type CartPanelProps = {
     items: CartItem[];
