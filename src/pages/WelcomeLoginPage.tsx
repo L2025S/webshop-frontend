@@ -49,10 +49,10 @@ const WelcomeLoginPage = () => {
 
         <button
           type="button"
-          onClick={() => navigate("/dashboard")}
+          onClick={() => navigate("/")}
           className="welcome-login-button"
         >
-          Continue to Dashboard
+          Continue to Home
         </button>
       </section>
     </main>
