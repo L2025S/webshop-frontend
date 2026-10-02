@@ -66,9 +66,10 @@
   gap: 1rem;
   padding: 0.75rem 0;
   border-bottom: 1px solid #ede8de;
+  color:black;
 }
 
 .cart-panel__item-qty {
-  color: #5c6b60;
+  color: black;
   white-space: nowrap;
 }
