@@ -54,4 +54,38 @@ describe("ProductCard", () => {
 
     expect(onAddToCart).toHaveBeenCalledWith(product, 3);
   });
+
+  it("decreases quantity correctly", () => {
+    render(<ProductCard product={product} onAddToCart={onAddToCart} />);
+
+    const increaseButton = screen.getByRole("button", {
+      name: /increase quantity/i,
+    });
+
+    const decreaseButton = screen.getByRole("button", {
+      name: /decrease quantity/i,
+    });
+    fireEvent.click(increaseButton);
+    fireEvent.click(increaseButton);
+
+    expect(screen.getByText("3")).toBeInTheDocument();
+
+    fireEvent.click(decreaseButton);
+
+    expect(screen.getByText("2")).toBeInTheDocument();
+  });
+
+  it("does not allow quantity over stock", () => {
+    render(<ProductCard product={product} onAddToCart={onAddToCart} />);
+
+    const increaseButton = screen.getByRole("button", {
+      name: /increase quantity/i,
+    });
+    fireEvent.click(increaseButton);
+    fireEvent.click(increaseButton);
+    fireEvent.click(increaseButton);
+    fireEvent.click(increaseButton);
+
+    expect(screen.getByText("4")).toBeInTheDocument();
+  });
 });
