@@ -1,5 +1,5 @@
 import { render, screen, fireEvent } from "@testing-library/react";
-import { beforeEach, describe, expect, it, vi } from "vitest";
+import {  describe, expect, it, vi } from "vitest";
 import ProductCard from "../components/ProductCard";
 import type { Product } from "../types/Product";
 
@@ -18,9 +18,6 @@ describe("ProductCard", () => {
 
   const onAddToCart = vi.fn<(product: Product, quantity: number) => void>();
 
-  beforeEach(() => {
-    onAddToCart.mockClear();
-  });
 
   it("displays product details correctly", () => {
     render(<ProductCard product={product} onAddToCart={onAddToCart} />);
