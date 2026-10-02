@@ -75,7 +75,7 @@ describe("ProductCard", () => {
     expect(screen.getByText("2")).toBeInTheDocument();
   });
 
-  it("does not allow quantity over stock", () => {
+  it("does not allow quantity above stock", () => {
     render(<ProductCard product={product} onAddToCart={onAddToCart} />);
 
     const increaseButton = screen.getByRole("button", {
@@ -87,5 +87,26 @@ describe("ProductCard", () => {
     fireEvent.click(increaseButton);
 
     expect(screen.getByText("4")).toBeInTheDocument();
+  });
+
+  it("does not show quantity controls when out of stock", () => {
+    const outOfStockProduct: Product = {
+      ...product,
+      stock: 0,
+    };
+    render(
+      <ProductCard product={outOfStockProduct} onAddToCart={onAddToCart} />,
+    );
+
+    expect(screen.getByText("Out of Stock")).toBeInTheDocument();
+    expect(
+      screen.queryByRole("button", { name: /increase quantity/i }),
+    ).not.toBeInTheDocument();
+    expect(
+      screen.queryByRole("button", { name: /increase quantity/i }),
+    ).not.toBeInTheDocument();
+    expect(
+      screen.queryByRole("button", { name: /decrease quantity/i }),
+    ).not.toBeInTheDocument();
   });
 });
