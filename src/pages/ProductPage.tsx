@@ -4,11 +4,12 @@ import { ApiError } from "../errors/ApiError";
 import type { Product } from "../types/Product";
 import ProductCard from "../components/ProductCard";
 import "../styles/ProductPage.css";
+import { useCart } from "../context/CartContext";
 
-type ProductPageProps = {
-    onAddToCart : (product: Product, quantity: number) => void;
-}
-export default function ProductPage ({onAddToCart}:ProductPageProps){
+
+export default function ProductPage (){
+
+    const { addToCart } = useCart();
 
     const [products, setProducts] = useState<Product[]>([]);
     const [loading, setLoading] = useState(true);
@@ -75,7 +76,7 @@ export default function ProductPage ({onAddToCart}:ProductPageProps){
                     <ProductCard 
                     key={product.id} 
                     product={product}
-                    onAddToCart={onAddToCart} />
+                    onAddToCart={addToCart} />
                 ))}
             </ul>
         )}
