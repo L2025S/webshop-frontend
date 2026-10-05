@@ -1,14 +1,13 @@
 import { Link, useNavigate } from "react-router";
 import { isAuthenticated, logout } from "../services/authService";
+import { useCart } from "../context/CartContext";
 
-type HeaderProps = {
-  totalCount: number;
-  onToggleCart: ()=> void;
-}
 
-function Header({totalCount, onToggleCart}: HeaderProps) {
+
+function Header() {
   const navigate = useNavigate();
   const authenticated = isAuthenticated();
+  const { totalCount, toggleCart } = useCart();
 
   const handleLogout = () => {
     logout();
@@ -26,7 +25,7 @@ function Header({totalCount, onToggleCart}: HeaderProps) {
           Products
         </Link>
 
-        <button type="button" className="header-cart-button" onClick={onToggleCart}>
+        <button type="button" className="header-cart-button" onClick={toggleCart}>
           Cart({totalCount})
         </button>
 
