@@ -12,6 +12,7 @@ describe("ProductCard", () => {
     price: 299,
     description: "This is a test product",
     stock: 4,
+    category:null,
     createdAt: "2026-09-25T10:00:00",
     updatedAt: "2026-09-25T10:00:00",
   };
