@@ -1,13 +1,12 @@
-import type { CartItem } from "../types/CartItem";
+
+import { useCart } from "../context/CartContext";
 import "../styles/CartPanel.css"
 
-type CartPanelProps = {
-    items: CartItem[];
-    isOpen: boolean;
-    onClose:()=>void;
-};
 
-export default function CartPanel ({items, isOpen, onClose}: CartPanelProps) {
+
+export default function CartPanel () {
+
+    const {items, isOpen, closeCart } = useCart();
 
 
     return (
@@ -19,7 +18,7 @@ export default function CartPanel ({items, isOpen, onClose}: CartPanelProps) {
             <h2 className="cart-panel__title">Cart</h2>
             <button
             type="button"
-            onClick={onClose}
+            onClick={closeCart}
             aria-label="Close cart"
             className="cart-panel__close"
             >
@@ -30,11 +29,11 @@ export default function CartPanel ({items, isOpen, onClose}: CartPanelProps) {
             {items.length === 0 ? (
                 <p className="cart-panel__empty">Your cart is empty.</p> 
             ) : (
-                <ul className="cart-pnael__list">
+                <ul className="cart-panel__list">
                     {items.map(({product, quantity})=> (
                         <li key={product.id} className="cart-panel__item">
                             <span className="cart-panel__item-name">{product.name}</span>
-                            <span className="cart-pnael__item-qty">× {quantity}</span>
+                            <span className="cart-panel__item-qty">× {quantity}</span>
                         </li>
                     ))}
                 </ul>

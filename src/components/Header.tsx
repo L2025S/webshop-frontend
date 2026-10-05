@@ -1,16 +1,15 @@
 import { Link, useLocation, useNavigate } from "react-router";
 import { isAuthenticated, logout } from "../services/authService";
 import { useEffect, useState } from "react";
+import { useCart } from "../context/CartContext";
 
-type HeaderProps = {
-  totalCount: number;
-  onToggleCart: ()=> void;
-}
 
-function Header({totalCount, onToggleCart}: HeaderProps) {
+
+function Header() {
   const navigate = useNavigate();
   const location = useLocation();
   const [authenticated, setAuthenticated] = useState(false);
+  const { totalCount, toggleCart } = useCart();
 
   useEffect(() => {
     isAuthenticated().then(setAuthenticated);
@@ -33,7 +32,7 @@ function Header({totalCount, onToggleCart}: HeaderProps) {
           Products
         </Link>
 
-        <button type="button" className="header-cart-button" onClick={onToggleCart}>
+        <button type="button" className="header-cart-button" onClick={toggleCart}>
           Cart({totalCount})
         </button>
 
