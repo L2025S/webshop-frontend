@@ -1,3 +1,5 @@
+import type { Category } from "./Category";
+
 export type Product = {
     id: number;
     uuid:string;
@@ -6,6 +8,7 @@ export type Product = {
     price:number;
     description: string;
     stock:number;
+    category: Category | null;
     createdAt:string;
     updatedAt:string;
 };
