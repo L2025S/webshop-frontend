@@ -1,5 +1,6 @@
-import { Link, useNavigate } from "react-router";
+import { Link, useLocation, useNavigate } from "react-router";
 import { isAuthenticated, logout } from "../services/authService";
+import { useEffect, useState } from "react";
 
 type HeaderProps = {
   totalCount: number;
@@ -8,10 +9,16 @@ type HeaderProps = {
 
 function Header({totalCount, onToggleCart}: HeaderProps) {
   const navigate = useNavigate();
-  const authenticated = isAuthenticated();
+  const location = useLocation();
+  const [authenticated, setAuthenticated] = useState(false);
 
-  const handleLogout = () => {
-    logout();
+  useEffect(() => {
+    isAuthenticated().then(setAuthenticated);
+  }, [location]);
+
+  const handleLogout = async () => {
+    await logout();
+    setAuthenticated(false);
     navigate("/login");
   };
 
