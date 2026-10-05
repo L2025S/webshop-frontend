@@ -1,3 +1,4 @@
+import { createOrder } from "../services/orderService";
 import { createContext, useContext, useState, type ReactNode } from "react";
 import type { CartItem } from "../types/CartItem";
 import type { Product } from "../types/Product";
@@ -9,6 +10,7 @@ type CartContextValue = {
     addToCart:(product: Product, quantity: number) => void;
     toggleCart:()=> void;
     closeCart:()=> void;
+    placeOrder: () => Promise<void>;
 };
 
 
@@ -43,7 +45,17 @@ export function CartProvider({ children }:{children: ReactNode}){
     function closeCart(){
         setIsOpen(false);
     }
+    //make order
+    async function placeOrder() {
+    const orderRequest = {
+        items: items.map((item) => ({
+            productId: item.product.id,
+            quantity: item.quantity,
+        })),
+    };
 
+    await createOrder(orderRequest);
+}
     const value: CartContextValue = {
         items, 
         isOpen,
@@ -51,6 +63,7 @@ export function CartProvider({ children }:{children: ReactNode}){
         addToCart,
         toggleCart,
         closeCart,
+        placeOrder,
     };
 
     return <CartContext.Provider value={value}>{children}</CartContext.Provider>;
