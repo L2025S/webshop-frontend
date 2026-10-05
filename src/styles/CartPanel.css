@@ -73,3 +73,12 @@
   color: black;
   white-space: nowrap;
 }
+
+.cart-panel__confirm {
+  width: 100%;
+  margin-top: 1rem;
+  padding: 0.75rem;
+  cursor: pointer;
+  background-color: green;
+   color: white;
+}

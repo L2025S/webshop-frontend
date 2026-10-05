@@ -6,7 +6,7 @@ import "../styles/CartPanel.css"
 
 export default function CartPanel () {
 
-    const {items, isOpen, closeCart } = useCart();
+    const {items, isOpen, closeCart,placeOrder } = useCart();
 
 
     return (
@@ -28,7 +28,7 @@ export default function CartPanel () {
 
             {items.length === 0 ? (
                 <p className="cart-panel__empty">Your cart is empty.</p> 
-            ) : (
+            ) : (<>
                 <ul className="cart-panel__list">
                     {items.map(({product, quantity})=> (
                         <li key={product.id} className="cart-panel__item">
@@ -37,6 +37,13 @@ export default function CartPanel () {
                         </li>
                     ))}
                 </ul>
+                
+                <button
+                    type="button"
+                    onClick={placeOrder}
+                    className="cart-panel__confirm"
+                    ></button>
+                </>
             )
             }
         </aside>
