@@ -1,16 +1,23 @@
-import { Link, useNavigate } from "react-router";
+import { Link, useLocation, useNavigate } from "react-router";
 import { isAuthenticated, logout } from "../services/authService";
+import { useEffect, useState } from "react";
 import { useCart } from "../context/CartContext";
 
 
 
 function Header() {
   const navigate = useNavigate();
-  const authenticated = isAuthenticated();
+  const location = useLocation();
+  const [authenticated, setAuthenticated] = useState(false);
   const { totalCount, toggleCart } = useCart();
 
-  const handleLogout = () => {
-    logout();
+  useEffect(() => {
+    isAuthenticated().then(setAuthenticated);
+  }, [location]);
+
+  const handleLogout = async () => {
+    await logout();
+    setAuthenticated(false);
     navigate("/login");
   };
 

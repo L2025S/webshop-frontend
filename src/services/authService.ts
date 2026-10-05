@@ -13,6 +13,7 @@ export async function login(credentials: LoginRequest): Promise<LoginResponse> {
     headers: {
       "Content-Type": "application/json",
     },
+    credentials: "include",
     body: JSON.stringify({
       username: credentials.username,
       password: credentials.password,
@@ -24,18 +25,15 @@ export async function login(credentials: LoginRequest): Promise<LoginResponse> {
     throw new Error("Login failed");
   }
 
-  // Convert the response into a LoginResponse object
-  const data: LoginResponse = await response.json();
-
-  // Keep the user logged in until they explicitly log out 
-  localStorage.setItem(TOKEN_KEY, data.accessToken);
-
-  return data;
+  return await response.json();
 }
 
-// Remove the access token when logging out
-export function logout(): void {
-  localStorage.removeItem(TOKEN_KEY);
+// Logs the user out
+export async function logout(): Promise<void> { 
+  await fetch(`${API_BASE}/auth/logout`, { 
+    method: "POST", 
+    credentials: "include", 
+  }); 
 }
 
 // Get the stored access token
@@ -43,7 +41,11 @@ export function getToken(): string | null {
   return localStorage.getItem(TOKEN_KEY);
 }
 
-// Check if an access token exists
-export function isAuthenticated(): boolean {
-  return getToken() !== null;
+// Checks whether the user is authenticated
+export async function isAuthenticated(): Promise<boolean> { 
+  const response = await fetch(`${API_BASE}/appusers/me`, { 
+    method: "GET", 
+    credentials: "include", 
+  }); 
+  return response.ok; 
 }
