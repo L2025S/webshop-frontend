@@ -8,6 +8,7 @@ import ProductPage from "./pages/ProductPage";
 import Footer from "./components/Footer";
 import CartPanel from "./components/CartPanel";
 import NotFoundPage from "./pages/NotFoundPage";
+import HomePage from "./pages/HomePage";
 
 const App = () => {
   return (
@@ -16,7 +17,7 @@ const App = () => {
       <CartPanel />
       <main>
         <Routes>
-          <Route path="/" element={<h1>Webshop</h1>} />
+          <Route path="/" element={< HomePage />} />
           <Route path="/login" element={<LoginPage />} />
           <Route path="/products" element={<ProductPage />} />
 
