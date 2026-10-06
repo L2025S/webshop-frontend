@@ -7,7 +7,8 @@ import ProductCard from "../components/ProductCard";
 import CategoryFilter from "../components/CategoryFilter";
 import { useCart } from "../context/CartContext";
 import "../styles/ProductPage.css";
-import { fetchAllCategories } from "../services/CategoryService";
+import { fetchAllCategories } from "../services/categoryService";
+
 
 export default function ProductPage() {
   const { addToCart } = useCart();
