@@ -207,6 +207,16 @@
     grid-template-columns: 1fr;
     gap: 1rem;
   }
+
+  .product-page__filters {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 1rem;
+  }
+
+  .product-page__category {
+    max-width: none;
+  }
   
   .product-page__search { 
     max-width: none; 
