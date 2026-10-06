@@ -7,25 +7,24 @@ import WelcomeLoginPage from "./pages/WelcomeLoginPage";
 import ProductPage from "./pages/ProductPage";
 import Footer from "./components/Footer";
 import CartPanel from "./components/CartPanel";
+import NotFoundPage from "./pages/NotFoundPage";
+import HomePage from "./pages/HomePage";
 
 const App = () => {
-  
-
   return (
     <>
       <Header />
       <CartPanel />
       <main>
-        <div>
-          <h1>Webshop</h1>
-        </div>
         <Routes>
+          <Route path="/" element={< HomePage />} />
           <Route path="/login" element={<LoginPage />} />
           <Route path="/products" element={<ProductPage />} />
 
           <Route element={<ProtectedRoute />}>
             <Route path="/welcome" element={<WelcomeLoginPage />} />
           </Route>
+          <Route path="*" element={<NotFoundPage />} />
         </Routes>
       </main>
       <Footer />

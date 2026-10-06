@@ -70,3 +70,57 @@ main {
 .footer-nav a:hover {
   text-decoration: underline;
 }
+
+/* 404-Styling */
+.not-found {
+  text-align: center;
+  padding: 80px 20px;
+}
+.not-found h1 {
+  font-size: 80px;
+  margin-bottom: 10px;
+}
+.not-found h2 {
+  margin-bottom: 15px;
+}
+.not-found p {
+  margin-bottom: 25px;
+}
+.not-found-link {
+  text-decoration: none;
+  font-weight: bold;
+}
+.not-found-link:hover {
+  text-decoration: underline;
+}
+
+/* HomePage Styling */
+.home-page {
+  min-height: 70vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  padding: 40px 20px;
+}
+.home-content {
+  max-width: 700px;
+}
+.home-content h1 {
+  font-size: 48px;
+  margin-bottom: 20px;
+}
+.home-content p {
+  font-size: 20px;
+  margin-bottom: 30px;
+}
+.home-button {
+  display: inline-block;
+  padding: 12px 24px;
+  text-decoration: none;
+  font-weight: bold;
+  border-radius: 4px;
+}
+.home-button:hover {
+  text-decoration: underline;
+}
