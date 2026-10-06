@@ -14,6 +14,7 @@ export default function ProductPage (){
     const [products, setProducts] = useState<Product[]>([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState<string | null> (null);
+    const [search, setSearch] = useState("");
 
     useEffect(() => {
 
@@ -43,14 +44,34 @@ export default function ProductPage (){
         loadProducts();
     }, []);
 
+
+    const filteredProducts = products.filter((product) => 
+        product.name.toLowerCase().includes(search.toLowerCase()) 
+    );
+
    
     return ( 
     <div className="product-page">
-        <h1 className="product-page__heading">Products</h1>
-       
+        
+        <div className="product-page__top"> 
+            <h1 className="product-page__heading">Products</h1> 
+            
+            <div className="product-page__search"> 
+                <i className="fa fa-search product-page__search-icon"></i> 
+                
+                <input 
+                    type="text" 
+                    placeholder="Search products..." 
+                    value={search} 
+                    onChange={(event) => setSearch(event.target.value)} 
+                /> 
+            </div> 
+        </div>
+
         {!loading && !error && (
             <p className="product-page__count">
-                {products.length} {products.length === 1 ? "product" : "products"} available
+                {filteredProducts.length} 
+                {filteredProducts.length === 1 ? "product" : "products"} available
             </p>
         )}
 
@@ -64,15 +85,17 @@ export default function ProductPage (){
             </p>
         )}
 
-        {!loading && !error && products.length === 0 &&(
+        {!loading && !error && filteredProducts.length === 0 && (
             <p className="product-page__status product-page__status--empty">
-                No products available right now. Check back soon.
+                {search
+                    ? `No products found for "${search}".`
+                    : "No products available right now. Check back soon."}
             </p>
-        )}
+        )} 
 
-        {!loading && !error && products.length > 0 && (
+        {!loading && !error && filteredProducts.length > 0 && (
             <ul className="product-grid">
-                {products.map((product) => (
+                {filteredProducts.map((product) => (
                     <ProductCard 
                     key={product.id} 
                     product={product}
