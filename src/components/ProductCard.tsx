@@ -1,6 +1,7 @@
 import { useState } from "react";
 import type { Product } from "../types/Product";
 import "../styles/ProductCard.css";
+import "../styles/Category.css";
 
 type ProductCardProps = {
     product: Product;
@@ -35,6 +36,15 @@ export default function ProductCard({product, onAddToCart}: ProductCardProps){
             className="product-card__image"
              />
             <h2 className="product-card__name">{product.name}</h2>
+            <span
+            className={
+                product.category
+                ?"product-card__category"
+                :"product-card__category product-card__category--none"
+            }
+            >
+                {product.category ? product.category.name : "No category"}
+                </span>
          
             <p className="product-card__description">{product.description}</p>
             <span className="product-card__tag">{product.price} SEK</span>
