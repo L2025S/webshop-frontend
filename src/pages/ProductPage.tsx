@@ -5,6 +5,9 @@ import type { Product } from "../types/Product";
 import ProductCard from "../components/ProductCard";
 import "../styles/ProductPage.css";
 import { useCart } from "../context/CartContext";
+import type { Category } from "../types/Category";
+import { fetchAllCategories } from "../services/CategoryService";
+import CategoryFilter from "../components/CategoryFilter";
 
 
 export default function ProductPage (){
@@ -14,6 +17,9 @@ export default function ProductPage (){
     const [products, setProducts] = useState<Product[]>([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState<string | null> (null);
+
+    const [categories, setCategories] = useState<Category[]>([]);
+    const [selectedCategoryId, setSelectedCategoryId] = useState<number | null>(null);
 
     useEffect(() => {
 
@@ -43,14 +49,42 @@ export default function ProductPage (){
         loadProducts();
     }, []);
 
+
+    useEffect(() => {
+        async function loadCategories() {
+            try {
+                const data = await fetchAllCategories();
+                setCategories(data);
+            } catch (error) {
+                console.error("Could not load categories:", error);
+            }
+        }
+
+        loadCategories();
+    }, []);
+
+    const visibleProducts = 
+    selectedCategoryId === null
+            ? products
+            : products.filter((product)=> product.category?.id === selectedCategoryId);
+
    
     return ( 
     <div className="product-page">
         <h1 className="product-page__heading">Products</h1>
        
-        {!loading && !error && (
+        {!loading && !error &&  categories.length > 0 && (
+            <CategoryFilter
+            categories={categories}
+            selectedCategoryId={selectedCategoryId}
+            onChange={setSelectedCategoryId} 
+            />
+        )}
+           
+        {!loading && !error &&(
             <p className="product-page__count">
-                {products.length} {products.length === 1 ? "product" : "products"} available
+                {visibleProducts.length} {visibleProducts.length === 1 ? "product" : "products"}{" "} 
+                available
             </p>
         )}
 
@@ -70,9 +104,15 @@ export default function ProductPage (){
             </p>
         )}
 
-        {!loading && !error && products.length > 0 && (
+        {!loading && !error && products.length > 0 && visibleProducts.length === 0 && (
+            <p className="product-page__status product-page__status--empty">
+                No products in this category.
+            </p>
+        )}
+
+        {!loading && !error && visibleProducts.length > 0 && (
             <ul className="product-grid">
-                {products.map((product) => (
+                {visibleProducts.map((product) => (
                     <ProductCard 
                     key={product.id} 
                     product={product}
