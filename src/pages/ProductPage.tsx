@@ -15,6 +15,7 @@ export default function ProductPage (){
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState<string | null> (null);
     const [search, setSearch] = useState("");
+    const [category, setCategory] = useState<"none" | "comp-peri" | "audio" | "display" | "storage" | "power" | "furniture" | "smart-home">("none");
 
     useEffect(() => {
 
@@ -49,13 +50,23 @@ export default function ProductPage (){
         product.name.toLowerCase().includes(search.toLowerCase()) 
     );
 
+    //const filteredCategoryProducts =
+    //      category === "none"
+    //      ? products
+    //      : products.filter(
+    //      (product) => product.category === category
+    //    );
+
    
     return ( 
     <div className="product-page">
         
         <div className="product-page__top"> 
             <h1 className="product-page__heading">Products</h1> 
-            
+        </div>
+
+        <div className="product-page__filters">
+
             <div className="product-page__search"> 
                 <i className="fa fa-search product-page__search-icon"></i> 
                 
@@ -63,10 +74,34 @@ export default function ProductPage (){
                     type="text" 
                     placeholder="Search products..." 
                     value={search} 
-                    onChange={(event) => setSearch(event.target.value)} 
+                    onChange={(event) => 
+                        setSearch(event.target.value)} 
                 /> 
             </div> 
+
+            <div className="product-page__category">
+                <select
+                    id="category"
+                    value={category}
+                    required
+                    onChange={(event) => 
+                        setCategory(event.target.value as "none" | "comp-peri" | "audio" | "display" | "storage" | "power" | "furniture" | "smart-home")
+                    }
+                >
+                    <option value="none">Select a category</option>
+                    <option value="comp-peri">Computer Peripherals</option>
+                    <option value="audio">Audio</option>
+                    <option value="display">Display</option>
+                    <option value="storage">Storage</option>
+                    <option value="power">Power & Charging</option>
+                    <option value="furniture">Furniture</option>
+                    <option value="smart-home">Smart Home & Lightning</option>
+                </select>
+            </div>
+
         </div>
+
+        
 
         {!loading && !error && (
             <p className="product-page__count">
