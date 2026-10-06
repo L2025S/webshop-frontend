@@ -7,6 +7,7 @@ import WelcomeLoginPage from "./pages/WelcomeLoginPage";
 import ProductPage from "./pages/ProductPage";
 import Footer from "./components/Footer";
 import CartPanel from "./components/CartPanel";
+import NotFoundPage from "./pages/NotFoundPage";
 
 const App = () => {
   
@@ -26,6 +27,7 @@ const App = () => {
           <Route element={<ProtectedRoute />}>
             <Route path="/welcome" element={<WelcomeLoginPage />} />
           </Route>
+          <Route path="*" element={<NotFoundPage />} />
         </Routes>
       </main>
       <Footer />
