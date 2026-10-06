@@ -70,3 +70,26 @@ main {
 .footer-nav a:hover {
   text-decoration: underline;
 }
+
+/* 404-Styling */
+.not-found {
+  text-align: center;
+  padding: 80px 20px;
+}
+.not-found h1 {
+  font-size: 80px;
+  margin-bottom: 10px;
+}
+.not-found h2 {
+  margin-bottom: 15px;
+}
+.not-found p {
+  margin-bottom: 25px;
+}
+.not-found-link {
+  text-decoration: none;
+  font-weight: bold;
+}
+.not-found-link:hover {
+  text-decoration: underline;
+}
