@@ -1,144 +1,124 @@
 import { useEffect, useState } from "react";
-import { fetchAllProducts  } from "../services/productService";
+import { fetchAllProducts } from "../services/productService";
 import { ApiError } from "../errors/ApiError";
 import type { Product } from "../types/Product";
+import type { Category } from "../types/Category";
 import ProductCard from "../components/ProductCard";
-import "../styles/ProductPage.css";
+import CategoryFilter from "../components/CategoryFilter";
 import { useCart } from "../context/CartContext";
+import "../styles/ProductPage.css";
+import { fetchAllCategories } from "../services/categoryService";
 
 
-export default function ProductPage (){
+export default function ProductPage() {
+  const { addToCart } = useCart();
 
-    const { addToCart } = useCart();
+  const [products, setProducts] = useState<Product[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
 
-    const [products, setProducts] = useState<Product[]>([]);
-    const [loading, setLoading] = useState(true);
-    const [error, setError] = useState<string | null> (null);
-    const [search, setSearch] = useState("");
-    const [category, setCategory] = useState<"none" | "comp-peri" | "audio" | "display" | "storage" | "power" | "furniture" | "smart-home">("none");
+  // ✅ CHANGED: two new pieces of state.
 
-    useEffect(() => {
+  const [categories, setCategories] = useState<Category[]>([]);
+  const [selectedCategoryId, setSelectedCategoryId] = useState<number | null>(
+    null,
+  );
 
-        async function loadProducts() {
-            setLoading(true);
-            setError(null);
+  useEffect(() => {
+    async function loadProducts() {
+      setLoading(true);
+      setError(null);
 
-            try {
-                const data = await fetchAllProducts();
-                setProducts(data);
+      try {
+        const data = await fetchAllProducts();
+        setProducts(data);
+      } catch (error) {
+        if (error instanceof ApiError) {
+          setError(error.message);
+        } else {
+          setError("An unexpected error occurred. Please try again later.");
+        }
+      } finally {
+        setLoading(false);
+      }
+    }
 
-            } catch (error) {
-                if (error instanceof ApiError) {
-                    setError (error.message);
-                } else {
-                    setError ("An unexpected error occurred. Please try again later.");
-                }
-                    
-            } finally {
+    loadProducts();
+  }, []);
 
-                setLoading (false);
+  useEffect(() => {
+    async function loadCategories() {
+      try {
+        const data = await fetchAllCategories();
+        setCategories(data);
+      } catch (error) {
+        console.error("Could not load categories:", error);
+      }
+    }
 
-            }
+    loadCategories();
+  }, []);
 
-        };
+  const visibleProducts =
+    selectedCategoryId === null
+      ? products
+      : products.filter(
+          (product) => product.category?.id === selectedCategoryId,
+        );
 
-        loadProducts();
-    }, []);
-
-
-    const filteredProducts = products.filter((product) => 
-        product.name.toLowerCase().includes(search.toLowerCase()) 
-    );
-
-    //const filteredCategoryProducts =
-    //      category === "none"
-    //      ? products
-    //      : products.filter(
-    //      (product) => product.category === category
-    //    );
-
-   
-    return ( 
+  return (
     <div className="product-page">
-        
-        <div className="product-page__top"> 
-            <h1 className="product-page__heading">Products</h1> 
-        </div>
+      <h1 className="product-page__heading">Products</h1>
 
-        <div className="product-page__filters">
+      {!loading && !error && categories.length > 0 && (
+        <CategoryFilter
+          categories={categories}
+          selectedCategoryId={selectedCategoryId}
+          onChange={setSelectedCategoryId}
+        />
+      )}
 
-            <div className="product-page__search"> 
-                <i className="fa fa-search product-page__search-icon"></i> 
-                
-                <input 
-                    type="text" 
-                    placeholder="Search products..." 
-                    value={search} 
-                    onChange={(event) => 
-                        setSearch(event.target.value)} 
-                /> 
-            </div> 
+      {!loading && !error && (
+        <p className="product-page__count">
+          {visibleProducts.length}{" "}
+          {visibleProducts.length === 1 ? "product" : "products"} available
+        </p>
+      )}
 
-            <div className="product-page__category">
-                <select
-                    id="category"
-                    value={category}
-                    required
-                    onChange={(event) => 
-                        setCategory(event.target.value as "none" | "comp-peri" | "audio" | "display" | "storage" | "power" | "furniture" | "smart-home")
-                    }
-                >
-                    <option value="none">Select a category</option>
-                    <option value="comp-peri">Computer Peripherals</option>
-                    <option value="audio">Audio</option>
-                    <option value="display">Display</option>
-                    <option value="storage">Storage</option>
-                    <option value="power">Power & Charging</option>
-                    <option value="furniture">Furniture</option>
-                    <option value="smart-home">Smart Home & Lightning</option>
-                </select>
-            </div>
+      {loading && <p className="product-page__status">Loading products...</p>}
 
-        </div>
+      {!loading && error && (
+        <p className="product-page__status product-page__status--error">
+          {error}
+        </p>
+      )}
 
-        
+      {!loading && !error && products.length === 0 && (
+        <p className="product-page__status product-page__status--empty">
+          No products available right now. Check back soon.
+        </p>
+      )}
 
-        {!loading && !error && (
-            <p className="product-page__count">
-                {filteredProducts.length} 
-                {filteredProducts.length === 1 ? "product" : "products"} available
-            </p>
+      {!loading &&
+        !error &&
+        products.length > 0 &&
+        visibleProducts.length === 0 && (
+          <p className="product-page__status product-page__status--empty">
+            No products in this category.
+          </p>
         )}
 
-        {loading && (
-            <p className="product-page__status">Loading products...</p>
-        )}
-
-        {!loading && error && (
-            <p className="product-page__status product-page__status--error">
-                {error}
-            </p>
-        )}
-
-        {!loading && !error && filteredProducts.length === 0 && (
-            <p className="product-page__status product-page__status--empty">
-                {search
-                    ? `No products found for "${search}".`
-                    : "No products available right now. Check back soon."}
-            </p>
-        )} 
-
-        {!loading && !error && filteredProducts.length > 0 && (
-            <ul className="product-grid">
-                {filteredProducts.map((product) => (
-                    <ProductCard 
-                    key={product.id} 
-                    product={product}
-                    onAddToCart={addToCart} />
-                ))}
-            </ul>
-        )}
-
+      {!loading && !error && visibleProducts.length > 0 && (
+        <ul className="product-grid">
+          {visibleProducts.map((product) => (
+            <ProductCard
+              key={product.id}
+              product={product}
+              onAddToCart={addToCart}
+            />
+          ))}
+        </ul>
+      )}
     </div>
-    );
-};
+  );
+}
