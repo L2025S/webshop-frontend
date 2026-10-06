@@ -15,6 +15,7 @@ export default function ProductPage (){
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState<string | null> (null);
     const [search, setSearch] = useState("");
+    const [category, setCategory] = useState<"low" | "medium" | "high">("low");
 
     useEffect(() => {
 
@@ -63,9 +64,24 @@ export default function ProductPage (){
                     type="text" 
                     placeholder="Search products..." 
                     value={search} 
-                    onChange={(event) => setSearch(event.target.value)} 
+                    onChange={(event) => 
+                        setSearch(event.target.value)} 
                 /> 
             </div> 
+
+            <label htmlFor="category">Category</label>
+            <select
+                id="category"
+                value={category}
+                required
+                onChange={(event) => 
+                    setCategory(event.target.value as "low" | "medium" | "high")
+                }
+            >
+                <option value="low">Low</option>
+                <option value="medium">Medium</option>
+                <option value="high">High</option>
+            </select>
         </div>
 
         {!loading && !error && (
