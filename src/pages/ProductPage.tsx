@@ -15,7 +15,7 @@ export default function ProductPage (){
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState<string | null> (null);
     const [search, setSearch] = useState("");
-    const [category, setCategory] = useState<"comp-peri" | "audio" | "display" | "storage" | "power" | "furniture" | "smart-home">("comp-peri");
+    const [category, setCategory] = useState<"none" | "comp-peri" | "audio" | "display" | "storage" | "power" | "furniture" | "smart-home">("none");
 
     useEffect(() => {
 
@@ -50,6 +50,13 @@ export default function ProductPage (){
         product.name.toLowerCase().includes(search.toLowerCase()) 
     );
 
+    //const filteredCategoryProducts =
+    //      category === "none"
+    //      ? products
+    //      : products.filter(
+    //      (product) => product.category === category
+    //    );
+
    
     return ( 
     <div className="product-page">
@@ -78,9 +85,10 @@ export default function ProductPage (){
                 value={category}
                 required
                 onChange={(event) => 
-                    setCategory(event.target.value as "comp-peri" | "audio" | "display" | "storage" | "power" | "furniture" | "smart-home")
+                    setCategory(event.target.value as "none" | "comp-peri" | "audio" | "display" | "storage" | "power" | "furniture" | "smart-home")
                 }
             >
+                <option value="none">Select a category</option>
                 <option value="comp-peri">Computer Peripherals</option>
                 <option value="audio">Audio</option>
                 <option value="display">Display</option>
