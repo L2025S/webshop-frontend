@@ -10,17 +10,13 @@ import CartPanel from "./components/CartPanel";
 import NotFoundPage from "./pages/NotFoundPage";
 
 const App = () => {
-  
-
   return (
     <>
       <Header />
       <CartPanel />
       <main>
-        <div>
-          <h1>Webshop</h1>
-        </div>
         <Routes>
+          <Route path="/" element={<h1>Webshop</h1>} />
           <Route path="/login" element={<LoginPage />} />
           <Route path="/products" element={<ProductPage />} />
 
