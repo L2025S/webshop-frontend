@@ -15,7 +15,7 @@ export default function ProductPage (){
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState<string | null> (null);
     const [search, setSearch] = useState("");
-    const [category, setCategory] = useState<"low" | "medium" | "high">("low");
+    const [category, setCategory] = useState<"comp-peri" | "audio" | "display" | "storage" | "power" | "furniture" | "smart-home">("comp-peri");
 
     useEffect(() => {
 
@@ -69,18 +69,25 @@ export default function ProductPage (){
                 /> 
             </div> 
 
+        </div>
+
+        <div className="product-page__filter">
             <label htmlFor="category">Category</label>
             <select
                 id="category"
                 value={category}
                 required
                 onChange={(event) => 
-                    setCategory(event.target.value as "low" | "medium" | "high")
+                    setCategory(event.target.value as "comp-peri" | "audio" | "display" | "storage" | "power" | "furniture" | "smart-home")
                 }
             >
-                <option value="low">Low</option>
-                <option value="medium">Medium</option>
-                <option value="high">High</option>
+                <option value="comp-peri">Computer Peripherals</option>
+                <option value="audio">Audio</option>
+                <option value="display">Display</option>
+                <option value="storage">Storage</option>
+                <option value="power">Power & Charging</option>
+                <option value="furniture">Furniture</option>
+                <option value="smart-home">Smart Home & Lightning</option>
             </select>
         </div>
 
