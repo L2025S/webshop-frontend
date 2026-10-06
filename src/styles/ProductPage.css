@@ -10,9 +10,15 @@
   box-sizing: border-box;
 }
 
-
+.product-page__top { 
+  display: flex; 
+  flex-direction: column; 
+  align-items: center; 
+  margin-bottom: 1.5rem; 
+}
 
 .product-page__heading {
+  color: #222;
   font-size: 2rem;
   font-weight: 700;
   letter-spacing: -0.01em;
@@ -60,6 +66,53 @@
   padding: 0;
 }
 
+.product-page__search { 
+  align-items: center;
+  position: relative; 
+  width: 100%; 
+  max-width: 32rem; 
+} 
+
+.product-page__search input { 
+  width: 100%; 
+  box-sizing: border-box; 
+  padding: 0.85rem 1rem 0.85rem 2.75rem; 
+  background: #ffffff; 
+  color: #1e2a22; 
+  border: 1px solid #dad3c6; 
+  border-radius: 999px; 
+  font-size: 0.95rem; 
+  font-family: inherit; 
+  outline: none; 
+  box-shadow: 0 2px 6px rgba(30, 42, 34, 0.05); 
+  transition: border-color 0.2s ease, box-shadow 0.2s ease; 
+} 
+
+.product-page__search input::placeholder { 
+  color: #8a908a; 
+} 
+
+.product-page__search input:hover { 
+  border-color: #c5bdae; 
+} 
+
+.product-page__search input:focus { 
+  border-color: #8c9b8f; 
+  box-shadow: 
+  0 0 0 3px rgba(140, 155, 143, 0.15), 
+  0 3px 8px rgba(30, 42, 34, 0.06); 
+} 
+
+.product-page__search-icon { 
+  position: absolute; 
+  left: 1rem; 
+  top: 50%; 
+  transform: translateY(-50%); 
+  color: #6f786f; 
+  font-size: 0.9rem; 
+  pointer-events: none; 
+}
+
 /* ==================== Responsive ========================== */
 
 @media (max-width: 1024px) {
@@ -84,4 +137,14 @@
     grid-template-columns: 1fr;
     gap: 1rem;
   }
+  
+  .product-page__search { 
+    max-width: none; 
+  } 
+  
+  .product-page__search input { 
+    padding-top: 0.8rem; 
+    padding-bottom: 0.8rem; 
+  }
+
 }
