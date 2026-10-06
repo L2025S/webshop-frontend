@@ -4,8 +4,7 @@ import { ApiError } from "../errors/ApiError";
 const PRODUCT_SERVICE_URL= import.meta.env.VITE_PRODUCT_SERVICE_URL;
 
 export async function fetchAllProducts(): Promise<Product[]> {
-    const token = localStorage.getItem("accessToken");
-
+    
    
 
     let response: Response;
@@ -14,7 +13,7 @@ export async function fetchAllProducts(): Promise<Product[]> {
         response = await fetch (`${PRODUCT_SERVICE_URL}/products/all`, {
             method:"GET",
             headers: {
-               ...(token ? {Authorization: `Bearer ${token}` } : {}),
+              
                 "Content-Type": "application/json",
             },
         });
