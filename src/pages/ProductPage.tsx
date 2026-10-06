@@ -63,7 +63,10 @@ export default function ProductPage (){
         
         <div className="product-page__top"> 
             <h1 className="product-page__heading">Products</h1> 
-            
+        </div>
+
+        <div className="product-page__filters">
+
             <div className="product-page__search"> 
                 <i className="fa fa-search product-page__search-icon"></i> 
                 
@@ -76,28 +79,29 @@ export default function ProductPage (){
                 /> 
             </div> 
 
+            <div className="product-page__category">
+                <select
+                    id="category"
+                    value={category}
+                    required
+                    onChange={(event) => 
+                        setCategory(event.target.value as "none" | "comp-peri" | "audio" | "display" | "storage" | "power" | "furniture" | "smart-home")
+                    }
+                >
+                    <option value="none">Select a category</option>
+                    <option value="comp-peri">Computer Peripherals</option>
+                    <option value="audio">Audio</option>
+                    <option value="display">Display</option>
+                    <option value="storage">Storage</option>
+                    <option value="power">Power & Charging</option>
+                    <option value="furniture">Furniture</option>
+                    <option value="smart-home">Smart Home & Lightning</option>
+                </select>
+            </div>
+
         </div>
 
-        <div className="product-page__filter">
-            <label htmlFor="category">Category</label>
-            <select
-                id="category"
-                value={category}
-                required
-                onChange={(event) => 
-                    setCategory(event.target.value as "none" | "comp-peri" | "audio" | "display" | "storage" | "power" | "furniture" | "smart-home")
-                }
-            >
-                <option value="none">Select a category</option>
-                <option value="comp-peri">Computer Peripherals</option>
-                <option value="audio">Audio</option>
-                <option value="display">Display</option>
-                <option value="storage">Storage</option>
-                <option value="power">Power & Charging</option>
-                <option value="furniture">Furniture</option>
-                <option value="smart-home">Smart Home & Lightning</option>
-            </select>
-        </div>
+        
 
         {!loading && !error && (
             <p className="product-page__count">
