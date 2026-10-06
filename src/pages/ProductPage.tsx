@@ -17,12 +17,16 @@ export default function ProductPage() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
-  // ✅ CHANGED: two new pieces of state.
-
+  // Categories for the dropdown and the currently selected category filter
   const [categories, setCategories] = useState<Category[]>([]);
   const [selectedCategoryId, setSelectedCategoryId] = useState<number | null>(
     null,
   );
+
+  //  add a new piece of state for the search field
+  const [searchTerm, setSearchTerm] = useState("");
+
+
 
   useEffect(() => {
     async function loadProducts() {
@@ -59,23 +63,53 @@ export default function ProductPage() {
     loadCategories();
   }, []);
 
-  const visibleProducts =
-    selectedCategoryId === null
-      ? products
-      : products.filter(
-          (product) => product.category?.id === selectedCategoryId,
-        );
+
+// The search term is trimmed and lower-cased once here. 
+  const normalizedSearch = searchTerm.trim().toLowerCase();
+  const isSearching = normalizedSearch !== "";
+
+  const visibleProducts =products.filter((product) => {
+    const matchesCategory =
+    selectedCategoryId === null || product.category?.id === selectedCategoryId;
+
+    const matchesSearch = 
+    !isSearching ||
+    product.name.toLowerCase().includes(normalizedSearch) ||
+    product.description.toLowerCase().includes(normalizedSearch);
+
+    return matchesCategory && matchesSearch;
+  });
+   
 
   return (
     <div className="product-page">
       <h1 className="product-page__heading">Products</h1>
 
-      {!loading && !error && categories.length > 0 && (
-        <CategoryFilter
-          categories={categories}
-          selectedCategoryId={selectedCategoryId}
-          onChange={setSelectedCategoryId}
-        />
+
+    {/* The search filed and the category filter now sit together */}
+      {!loading && !error && (
+        <div className="product-page__filters">
+          <div className="product-page__search">
+            <span className="product-page__search-icon" aria-hidden="true">
+              🔍
+            </span>
+            <input 
+            type="search" 
+            placeholder="Search products..."
+            aria-label="Search products by name or description"
+            value={searchTerm}
+            onChange={(event)=> setSearchTerm(event.target.value)}
+            />
+          </div>
+
+          {categories.length > 0 && (
+            <CategoryFilter
+            categories={categories}
+            selectedCategoryId={selectedCategoryId}
+            onChange={setSelectedCategoryId} 
+            />
+          )}
+        </div>
       )}
 
       {!loading && !error && (
@@ -99,12 +133,19 @@ export default function ProductPage() {
         </p>
       )}
 
+
+
+      {/* The "No results" message now depends on wheter the user is searching.*/}
       {!loading &&
         !error &&
         products.length > 0 &&
         visibleProducts.length === 0 && (
           <p className="product-page__status product-page__status--empty">
-            No products in this category.
+            {isSearching
+            ? `No product match "${searchTerm.trim()}${
+              selectedCategoryId !== null ? " in this category" :""
+            }.`
+            : "No products in this category."}
           </p>
         )}
 

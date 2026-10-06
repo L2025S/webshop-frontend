@@ -25,14 +25,13 @@ export default function CategoryFilter({
     }
 
     return (
-        <div className="category-filter">
-            <label htmlFor="category-filter" className="category-filter__label">
+        <div className="product-page__category">
+            <label htmlFor="category-filter">
                 Category
             </label>
             <select 
             id="category-filter"
-            className="category-filter__select"
-            value={selectedCategoryId === null ? "": String(selectedCategoryId)}
+            value={selectedCategoryId === null ? "" : String(selectedCategoryId)}
             onChange={handleChange}
             >
                 <option value="">All categories</option>
