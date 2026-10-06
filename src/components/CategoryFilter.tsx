@@ -1,5 +1,6 @@
 import type { ChangeEvent } from "react";
 import type { Category } from "../types/Category";
+import "../styles/Category.css";
 
 type CategoryFilterProps = {
     categories: Category[];

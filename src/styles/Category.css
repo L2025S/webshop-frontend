@@ -1,0 +1,36 @@
+/* styles for the category filter and for the category label on a product card. */
+ 
+
+.category-filter {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin: 1rem 0;
+}
+
+.category-filter__label {
+    font-weight: 600;
+}
+
+.category-filter__select {
+    padding: 0.4rem 0.6rem;
+    border: 1px solid rgba(128, 128, 128, 0.6);
+    border-radius: 6px;
+    font: inherit;
+    color: inherit;
+    background-color: transparent;
+    cursor: pointer;
+}
+
+.product-card__category {
+    display: inline-block;
+    margin-bottom: 0.25rem;
+    font-size: 0.8rem;
+    opacity: 0.75;
+}
+
+/* Used for products that have no category yet */
+.product-card__category--none {
+    font-style: italic;
+    opacity: 0.55;
+}
