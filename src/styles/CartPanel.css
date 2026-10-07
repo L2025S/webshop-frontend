@@ -14,15 +14,18 @@
 
   transform: translateX(100%);
   visibility: hidden;
-  transition: transform 0.3s ease, visibility 0s linear 0.3s;
+  transition:
+    transform 0.3s ease,
+    visibility 0s linear 0.3s;
 }
 
-.cart-panel--open{
+.cart-panel--open {
   transform: translateX(0);
   visibility: visible;
-  transition: transform 0.3s ease, visibility 0s;
+  transition:
+    transform 0.3s ease,
+    visibility 0s;
 }
-
 
 .cart-panel__header {
   display: flex;
@@ -33,12 +36,10 @@
   margin-bottom: 1rem;
 }
 
-
 .cart-panel__title {
   font-size: 1.25rem;
   margin: 0;
 }
-
 
 .cart-panel__close {
   background: none;
@@ -47,11 +48,9 @@
   cursor: pointer;
 }
 
-
 .cart-panel__empty {
   color: #5c6b60;
 }
-
 
 .cart-panel__list {
   list-style: none;
@@ -59,19 +58,51 @@
   padding: 0;
 }
 
-
+/*each item is now a column with two rows
+   (name + unit price, then quantity buttons + subtotal). */
 .cart-panel__item {
   display: flex;
-  justify-content: space-between;
-  gap: 1rem;
+  flex-direction: column;
+  gap: 0.5rem;
   padding: 0.75rem 0;
   border-bottom: 1px solid #ede8de;
-  color:black;
+  color: black;
+}
+
+/* one row inside an item. */
+.cart-panel__item-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 1rem;
 }
 
 .cart-panel__item-qty {
   color: black;
   white-space: nowrap;
+}
+
+/* the - and + buttons with the quantity between them. */
+.cart-panel__quantity {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.cart-panel__quantity button {
+  width: 2rem;
+  height: 2rem;
+  cursor: pointer;
+}
+
+.cart-panel__quantity button:disabled {
+  cursor: not-allowed;
+  opacity: 0.5;
+}
+
+.cart-panel__quantity-value {
+  min-width: 1.5rem;
+  text-align: center;
 }
 
 .cart-panel__confirm {
@@ -80,21 +111,43 @@
   padding: 0.75rem;
   cursor: pointer;
   background-color: green;
-   color: white;
+  color: white;
 }
 
-
-.cart-panel__item-total { 
-  font-weight: 600; 
+/*  secondary buttons below "Place order". */
+.cart-panel__clear,
+.cart-panel__continue {
+  width: 100%;
+  margin-top: 0.5rem;
+  padding: 0.75rem;
+  cursor: pointer;
+  background: #ffffff;
+  color: #222;
+  border: 1px solid #dad3c6;
 }
-.cart-panel__total { 
-  font-weight: 700; 
+
+.cart-panel__clear {
+  color: #b00020;
+  border-color: #b00020;
+}
+
+.cart-panel__confirm:disabled,
+.cart-panel__clear:disabled {
+  cursor: not-allowed;
+  opacity: 0.6;
+}
+
+.cart-panel__item-total {
+  font-weight: 600;
+}
+.cart-panel__total {
+  font-weight: 700;
   margin-top: 1rem;
- }
+}
 .cart-panel__error {
-   color: #b00020;
-    margin: 0.5rem 0;
-   }
-.cart-panel__success { 
-  color: #1b5e20; 
+  color: #b00020;
+  margin: 0.5rem 0;
+}
+.cart-panel__success {
+  color: #1b5e20;
 }
