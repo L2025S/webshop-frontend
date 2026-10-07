@@ -1,0 +1,28 @@
+
+.cart-notification {
+  position: fixed;
+  bottom: 1.5rem;
+  left: 50%;
+  transform: translateX(-50%);
+  max-width: min(90vw, 28rem);
+  box-sizing: border-box;
+  padding: 0.75rem 1.25rem;
+  background: #1b5e20;
+  color: #ffffff;
+  font-weight: 600;
+  text-align: center;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25);
+  z-index: 1100;
+  animation: cart-notification-in 0.2s ease-out;
+}
+
+@keyframes cart-notification-in {
+  from {
+    opacity: 0;
+    transform: translate(-50%, 0.5rem);
+  }
+  to {
+    opacity: 1;
+    transform: translate(-50%, 0);
+  }
+}
