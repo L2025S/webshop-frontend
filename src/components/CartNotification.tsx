@@ -1,3 +1,6 @@
+import { useCart } from "../context/CartContext";
+import "../styles/CartNotification.css";
+
 export default function CartNotification() {
     const { notification } = useCart();
 
