@@ -82,3 +82,19 @@
   background-color: green;
    color: white;
 }
+
+
+.cart-panel__item-total { 
+  font-weight: 600; 
+}
+.cart-panel__total { 
+  font-weight: 700; 
+  margin-top: 1rem;
+ }
+.cart-panel__error {
+   color: #b00020;
+    margin: 0.5rem 0;
+   }
+.cart-panel__success { 
+  color: #1b5e20; 
+}
