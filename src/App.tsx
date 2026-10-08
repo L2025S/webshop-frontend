@@ -9,6 +9,7 @@ import Footer from "./components/Footer";
 import CartPanel from "./components/CartPanel";
 import NotFoundPage from "./pages/NotFoundPage";
 import HomePage from "./pages/HomePage";
+import ShowProductPage from "./pages/ShowProductPage";
 
 const App = () => {
   return (
@@ -20,6 +21,7 @@ const App = () => {
           <Route path="/" element={< HomePage />} />
           <Route path="/login" element={<LoginPage />} />
           <Route path="/products" element={<ProductPage />} />
+          <Route path="/product/:id" element={<ShowProductPage />} />
 
           <Route element={<ProtectedRoute />}>
             <Route path="/welcome" element={<WelcomeLoginPage />} />
