@@ -31,6 +31,9 @@ function Header() {
         <Link to="/products">
           Products
         </Link>
+        <Link to="/admin">
+        Admin
+        </Link>
 
         <button type="button" className="header-cart-button" onClick={toggleCart}>
           Cart({totalCount})
