@@ -10,6 +10,8 @@ import CartPanel from "./components/CartPanel";
 import NotFoundPage from "./pages/NotFoundPage";
 import HomePage from "./pages/HomePage";
 import ShowProductPage from "./pages/ShowProductPage";
+import AdminRoute from "./routes/AdminRoute";
+import AdminProductPage from "./pages/AdminPage";
 
 const App = () => {
   return (
@@ -27,6 +29,9 @@ const App = () => {
             <Route path="/welcome" element={<WelcomeLoginPage />} />
           </Route>
           <Route path="*" element={<NotFoundPage />} />
+          <Route element={<AdminRoute />}>
+          <Route path="/admin"element={
+            <AdminProductPage />}/></Route>
         </Routes>
       </main>
       <Footer />
