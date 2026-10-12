@@ -51,7 +51,7 @@ export default function ShowProductPage() {
   }
 
   if (!product) {
-    return <div className="product-page">Product not found.</div    >;
+    return <div className="product-page">Product not found.</div>;
   }
 
   const isOutOfStock = product.stock <= 0;
