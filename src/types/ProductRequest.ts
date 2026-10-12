@@ -3,7 +3,7 @@
 // It mirrors ProductRequestDTO in the product service.
 export type ProductRequest = {
     name: string;
-    imageurl: string | null;
+    imageUrl: string | null;
     price: number;
     description: string;
     stock: number;
