@@ -3,7 +3,7 @@ import { useState } from "react";
 import { useCart } from "../context/CartContext";
 import "../styles/CartPanel.css"
 import { ApiError } from "../errors/ApiError";
-import { useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router";
 
 
 
