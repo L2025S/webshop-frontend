@@ -1,8 +1,4 @@
 
-
-
-// Every filed is kept as a string while the ROLE_ADMIN put in the values..
-
 import { useEffect, useId, useRef, useState, type FormEvent } from "react";
 import type { Product } from "../types/Product";
 import type { ProductRequest } from "../types/ProductRequest";
@@ -10,6 +6,7 @@ import { fetchAllCategories } from "../services/categoryService";
 import type { Category } from "../types/Category";
 import { ApiError } from "../errors/ApiError";
 import { createProduct } from "../services/productService";
+import "../styles/ProductForm.css";
 
 //----------------------------------------------------------------------------------------------------
 // Types 
@@ -17,6 +14,7 @@ import { createProduct } from "../services/productService";
 
 
 
+// Every filed is kept as a string while the ROLE_ADMIN put in the values..
 // Numbers are only converted when the firm is submitted
 type FormValues = {
     name: string;
