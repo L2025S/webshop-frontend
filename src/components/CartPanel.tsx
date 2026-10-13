@@ -6,6 +6,7 @@ import { ApiError } from "../errors/ApiError";
 import { useNavigate } from "react-router-dom";
 
 
+
 const formatPrice = (value: number ) =>
     new Intl.NumberFormat("en-SE", {style: "currency", currency: "SEK"}).format(
         value,
