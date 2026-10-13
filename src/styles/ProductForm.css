@@ -1,0 +1,164 @@
+/* Colors and radii are copied from ProductPage.css so the form matches the site. */
+
+.admin-form {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+  width: 100%;
+  max-width: 40rem;
+  margin: 0 auto 2.5rem;
+  padding: 2rem;
+  box-sizing: border-box;
+  background: #ffffff;
+  border: 1px solid #dad3c6;
+  border-radius: 1rem;
+  box-shadow: 0 4px 12px rgba(30, 42, 34, 0.05);
+}
+
+.admin-form__title {
+  margin: 0;
+  color: #222;
+  font-size: 1.5rem;
+  font-weight: 700;
+}
+
+.admin-form__field {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  min-width: 0; /* lets fields shrink inside the two-column row */
+}
+
+.admin-form__row {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  gap: 1rem;
+}
+
+.admin-form__field label {
+  color: #5c6b60;
+  font-size: 0.9rem;
+  font-weight: 600;
+}
+
+.admin-form__field input,
+.admin-form__field select,
+.admin-form__field textarea {
+  width: 100%;
+  box-sizing: border-box;
+  padding: 0.85rem 1rem;
+  background: #ffffff;
+  color: #1e2a22;
+  border: 1px solid #dad3c6;
+  border-radius: 0.75rem;
+  font-size: 0.95rem;
+  font-family: inherit;
+  outline: none;
+  box-shadow: 0 2px 6px rgba(30, 42, 34, 0.05);
+  transition:
+    border-color 0.2s ease,
+    box-shadow 0.2s ease;
+}
+
+.admin-form__field textarea {
+  resize: vertical;
+}
+
+.admin-form__field input:hover,
+.admin-form__field select:hover,
+.admin-form__field textarea:hover {
+  border-color: #c5bdae;
+}
+
+.admin-form__field input:focus,
+.admin-form__field select:focus,
+.admin-form__field textarea:focus {
+  border-color: #8c9b8f;
+  box-shadow:
+    0 0 0 3px rgba(140, 155, 143, 0.15),
+    0 3px 8px rgba(30, 42, 34, 0.06);
+}
+
+/* Invalid fields get the same red as the rest of the site */
+.admin-form__field [aria-invalid="true"] {
+  border-color: #b3492f;
+}
+
+.admin-form__error {
+  margin: 0;
+  color: #b3492f;
+  font-size: 0.85rem;
+}
+
+.admin-form__hint {
+  margin: 0;
+  color: #5c6b60;
+  font-size: 0.85rem;
+}
+
+.admin-form__message {
+  margin: 0;
+  padding: 1rem 1.25rem;
+  border: 1px solid #dad3c6;
+  border-radius: 0.75rem;
+}
+
+.admin-form__message--error {
+  border-color: #b3492f;
+  color: #7a2f1d;
+  background: #fbf1ee;
+}
+
+.admin-form__message--success {
+  border-color: #8c9b8f;
+  color: #1e2a22;
+  background: #eef3ef;
+}
+
+.admin-form__submit {
+  align-self: flex-start;
+  padding: 0.85rem 1.5rem;
+  border: 1px solid #1e2a22;
+  border-radius: 0.75rem;
+  background: #1e2a22;
+  color: #ffffff;
+  font-family: inherit;
+  font-size: 0.95rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition:
+    background 0.2s ease,
+    border-color 0.2s ease,
+    transform 0.2s ease;
+}
+
+.admin-form__submit:hover:not(:disabled) {
+  background: #34463a;
+  border-color: #34463a;
+  transform: translateY(-1px);
+}
+
+.admin-form__submit:active:not(:disabled) {
+  transform: translateY(0);
+}
+
+.admin-form__submit:disabled {
+  background: #c9c5bd;
+  border-color: #c9c5bd;
+  cursor: not-allowed;
+}
+
+/* Phone (<= 600px) */
+@media (max-width: 600px) {
+  .admin-form {
+    padding: 1.25rem;
+  }
+
+  .admin-form__row {
+    grid-template-columns: 1fr;
+  }
+
+  .admin-form__submit {
+    align-self: stretch;
+  }
+}
