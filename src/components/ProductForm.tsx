@@ -3,9 +3,13 @@
 
 // Every filed is kept as a string while the ROLE_ADMIN put in the values..
 
-import { useId, useState } from "react";
+import { useEffect, useId, useRef, useState, type FormEvent } from "react";
 import type { Product } from "../types/Product";
 import type { ProductRequest } from "../types/ProductRequest";
+import { fetchAllCategories } from "../services/categoryService";
+import type { Category } from "../types/Category";
+import { ApiError } from "../errors/ApiError";
+import { createProduct } from "../services/productService";
 
 //----------------------------------------------------------------------------------------------------
 // Types 
@@ -158,6 +162,255 @@ export default function ProductForm ({
     // useId gives unique ids so each <label< is linked to its input. 
     const formId = useId();
 
-    const[formValues, setFormValues] = useState<FormValues>(EMPTY_FORM_VALUES);
+    const [formValues, setFormValues] = useState<FormValues>(EMPTY_FORM_VALUES);
+    const [fieldErrors, setFieldErrors] = useState<FormErrors>({});
+    const [serverError, setServerError] = useState<string | null>(null);
+    const [successMessage, setSuccessMessage] = useState<string | null>(null);
+    const [isSubmitting, setIsSubmitting] = useState(false);
+
     
+    const [categories, setCategories] = useState<Category[]>([]);
+    const [categoriesError, setCategoriesError] = useState<string |null>(null);
+
+
+    // Keeps a reference to every input so we can focus the first invalid one. 
+    const fieldRefs = useRef<Record<FieldName, HTMLElement | null>> ({
+        name: null, 
+        imageUrl: null,
+        price: null,
+        description: null,
+        stock: null,
+        categoryId: null,
+    });
+
+
+    // Load the categories for the dropdown once, when the form first appears. 
+    useEffect(()=> {
+        async function loadCategories () {
+            try {
+                const loadedCategories = await fetchAllCategories();
+                setCategories (loadedCategories);
+
+            } catch (error) {
+                console.error("Could not load categories:", error);
+                setCategoriesError(
+                    "Could not load categories. You can still create a product without a category.",
+                );
+
+            }
+        }
+
+        loadCategories();
+
+    }, []);
+
+
+
+    // Updates one field and clears that field's error whil teh admin is fixing it 
+    function updateField(fieldName: FieldName, newValue: string) {
+        setFormValues((currentValues) =>({
+            ...currentValues,
+            [fieldName]: newValue
+        }));
+
+        setFieldErrors((currentErrors) =>({
+            ...currentErrors,
+            [fieldName]: undefined,
+        }));
+
+        setSuccessMessage(null);
+    }
+
+    async function handleSubmit ( event: FormEvent<HTMLFormElement>) {
+        event.preventDefault();
+        setServerError(null);
+        setSuccessMessage(null);
+
+        const validationErrors = validateForm(formValues);
+        const firstInvalidField = FIELD_ORDER.find(
+            (fieldName) => validationErrors[fieldName],
+        );
+
+
+        if (firstInvalidField) {
+            setFieldErrors (validationErrors);
+            fieldRefs.current[firstInvalidField]?.focus();
+            return;
+        }
+
+        setIsSubmitting(true); 
+
+        try {
+
+            const createdProduct= await createProduct(buildProductRequest(formValues));
+
+            onProductCreated(createdProduct);
+            setFormValues(EMPTY_FORM_VALUES);
+            setFieldErrors({});
+            setSuccessMessage(`Product "${createdProduct.name}" was created.`);
+        } catch (error) {
+            if ( error instanceof ApiError) {
+                setServerError(error.message);
+            } else {
+                setServerError ("An unexpected error occurred. Please try again later.");
+            }
+
+        } finally {
+                setIsSubmitting(false);
+        }
+    }
+
+    return (
+        <form className="admin-form" onSubmit={handleSubmit} noValidate>
+            <h2 className="admin-form__title">Add new product</h2>
+
+            {serverError && (
+                <p className="admin-form__message admin-form__message--error" role="alert">
+                    {serverError}
+                </p>
+            )}
+
+            {successMessage &&(
+                <p className="admin-form__message admin-form__message--success" role="status">
+                    {successMessage}
+                </p>
+            )}
+
+
+            {/* Name */}
+            <div className="admin-form__field">
+                <label htmlFor={`${formId}-name`}>Name *</label>
+                <input 
+                id={`${formId}-name`}
+                type="text" 
+                value={formValues.name}
+                onChange={(event) => updateField("name", event.target.value)}
+                ref={(element) => {
+                    fieldRefs.current.name = element;
+                }}
+                aria-invalid={fieldErrors.name ? true: undefined}
+                aria-describedby = {fieldErrors.name ? `${formId}-name-error` : undefined}
+                />
+
+                {fieldErrors.name && (
+                    <p 
+                    id={`${formId}-name-error`}
+                    className="admin-form__error"
+                    >
+                        {fieldErrors.name}
+                    </p>
+                )}
+            </div>
+
+
+            {/* Image URL */}
+            <div className="admin-form__field">
+                <label htmlFor={`${formId}-imageUrl`}>Image URL</label>
+                <input 
+                id={`${formId}-imageUrl`}
+                type="text"
+                placeholder="https://example.com/image.png" 
+                value={formValues.imageUrl}
+                onChange={(event) => updateField("imageUrl", event.target.value)}
+                ref={(element) => {
+                    fieldRefs.current.imageUrl = element;
+                }}
+                aria-invalid={fieldErrors.imageUrl ? true : undefined}
+                aria-describedby={fieldErrors.imageUrl ? `${formId}-imageUrl-error` : undefined}
+                />
+
+                {fieldErrors.imageUrl && (
+                    <p id={`${formId}-imageUrl-error`} className="admin-form__error">
+                        {fieldErrors.imageUrl}
+                    </p>
+                )}
+            </div>
+
+
+            {/*  Price and stock share one row on wide screens */}
+            <div className="admin-form__row">
+                <div className="admin-form__field">
+                    <label htmlFor={`${formId}-price`}>Price (SEK) *</label>
+                    <input
+                    id={`{formId}-price`}
+                     type="text" 
+                     inputMode="decimal"
+                     placeholder="99.90"
+                     value={formValues.price}
+                     onChange={(event) => updateField("price", event.target.value)}
+                     ref={(element) => {
+                        fieldRefs.current.price = element;
+                     }}
+                    aria-invalid={fieldErrors.price ? true : undefined}
+                    aria-describedby = {fieldErrors.price? `${formId}-price-error` : undefined}
+                    />
+                    {fieldErrors.price && (
+                        <p id={`${formId}-price-error`} className="admin-form__error">
+                            {fieldErrors.price}
+                        </p>
+                    )}
+                </div>
+            </div>
+
+
+            {/* Category  */}
+            <div className="admin-form__field">
+                <label htmlFor={`${formId}-categoryId`}>Category</label>
+                <select 
+                id={`${formId}-categoryId`}
+                value={formValues.categoryId}
+                onChange={(event) => updateField("categoryId", event.target.value)}
+                ref={(element) => {
+                    fieldRefs.current.categoryId = element;
+                }}
+                >
+                    <option value="">No Category</option>
+                    {categories.map((category) => (
+                        <option key={category.id} value={String(category.id)}>
+                            {category.name}
+                        </option>
+                    ))}
+                </select>
+                {categoriesError && (
+                    <p className="admin-form__hint">{categoriesError}</p>
+                )}
+
+            </div>
+
+
+
+            {/* Description */}
+            <div className="admin-form__field">
+                <label htmlFor="">Description</label>
+                <textarea 
+                id={`${formId}-description`}
+                rows={4}
+                value={formValues.description}
+                onChange={(event) => updateField("description", event.target.value)}
+                ref={(element) => {
+                    fieldRefs.current.description = element;
+                }}
+                aria-invalid={fieldErrors.description ? true: undefined}
+                aria-describedby={
+                    fieldErrors.description ? `${formId}-description-error` : undefined
+                }
+                />
+                <p className="admin-form__hint">
+                    {formValues.description.length} /{DESCRIPTION_MAX_LENGTH} characters
+                </p>
+                {fieldErrors.description && (
+                    <p id={`${formId}-description-error`} className="admin-form__error">
+                        {fieldErrors.description}
+                    </p>
+                )}
+            </div>
+            <button 
+            type="submit"
+            className="admin-form__submit"
+            disabled={isSubmitting}
+            >
+                {isSubmitting ? "Creating..." : "Create product"}
+            </button>
+        </form>
+    );
 }
