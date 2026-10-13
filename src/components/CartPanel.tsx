@@ -121,7 +121,7 @@ export default function CartPanel () {
 
                             </div>
 
-                            <div className="cart-pnael__item-row">
+                            <div className="cart-panel__item-row">
                             <div className="cart-panel__quantity">
                                 <button
                                 type="button"
