@@ -29,11 +29,11 @@ export async function login(credentials: LoginRequest): Promise<LoginResponse> {
 }
 
 // Logs the user out
-export async function logout(): Promise<void> { 
-  await fetch(`${API_BASE}/auth/logout`, { 
-    method: "POST", 
-    credentials: "include", 
-  }); 
+export async function logout(): Promise<void> {
+  await fetch(`${API_BASE}/auth/logout`, {
+    method: "POST",
+    credentials: "include",
+  });
 }
 
 // Get the stored access token
@@ -42,10 +42,10 @@ export function getToken(): string | null {
 }
 
 // Checks whether the user is authenticated
-export async function isAuthenticated(): Promise<boolean> { 
-  const response = await fetch(`${API_BASE}/appusers/me`, { 
-    method: "GET", 
-    credentials: "include", 
-  }); 
-  return response.ok; 
+export async function isAuthenticated(): Promise<boolean> {
+  const response = await fetch(`${API_BASE}/appusers/me`, {
+    method: "GET",
+    credentials: "include",
+  });
+  return response.ok;
 }
