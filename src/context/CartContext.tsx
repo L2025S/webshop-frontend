@@ -78,7 +78,7 @@ export function CartProvider({ children }:{children: ReactNode}){
 
         if( amountToAdd <= 0) {
             showNotification(
-                ` All ${product.stock} available ${product.name} are already in your cart. `,
+                `All ${product.stock} available ${product.name} are already in your cart.`,
             );
             return;
         }
@@ -89,17 +89,17 @@ export function CartProvider({ children }:{children: ReactNode}){
             if (existing) {
                 return prevItems.map((item) =>
                 item.product.id === product.id
-            ? {...item, quantity: item.quantity + quantity}
+            ? {...item, quantity: item.quantity + amountToAdd}
             : item,
         );
             }
-        return [...prevItems, { product, quantity }];
+        return [...prevItems, { product, quantity:amountToAdd }];
 
         });
         
         showNotification(
             amountToAdd <quantity
-            ? `${amountToAdd} x ${product.name} added to cart ( stock limit reached)`
+            ? `${amountToAdd} x ${product.name} added to cart (stock limit reached)`
             : `${amountToAdd} x ${product.name} added to cart`,
         );
     };
@@ -162,6 +162,10 @@ export function CartProvider({ children }:{children: ReactNode}){
 
     //Clear the cart after a successful order.
     setItems([]);
+
+    //Close the cart and show a confirmation after a succesful order.
+    setIsOpen(false);
+    showNotification("Your order has been placed.");
 }
     const value: CartContextValue = {
         items, 

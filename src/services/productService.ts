@@ -1,5 +1,6 @@
 import type { Product } from "../types/Product";
 import { ApiError } from "../errors/ApiError";
+import type { ProductRequest } from "../types/ProductRequest";
 
 const PRODUCT_SERVICE_URL = import.meta.env.VITE_PRODUCT_SERVICE_URL;
 
@@ -72,3 +73,78 @@ export async function fetchProduct(productId: number): Promise<Product> {
   const data: Product = await response.json();
   return data;
 }
+
+
+// The form gets the created product back, or an ApiError with a readable message
+
+export async function createProduct ( newProduct: ProductRequest, ) : Promise<Product> {
+
+        let response : Response;
+
+        try {
+            response = await fetch (`${PRODUCT_SERVICE_URL}/products/new`,{
+                method: "POST",
+                headers:{
+                    "Content-Type": "application/json",     
+                },
+                // The JWT lives in an HttpOnly cookie, so the browser msut be told to send it. 
+                // Without this the backend sees an anonymous request and answer 401. 
+                credentials: "include",
+                body:JSON.stringify(newProduct),
+                });
+        } catch (networkError) {
+            console.error(networkError);
+            throw new ApiError (
+                "Could not connect to the server. Please check your network connection."
+            );
+        }
+
+        if (!response.ok){
+            if( response.status === 401) {
+                throw new ApiError(
+                    "Your session has expired. Please log in again.",
+                    response.status,
+                );
+            }
+
+
+            if(response.status === 403) {
+                throw new ApiError(
+                    " You don't have permission to create products.",
+                    response.status,
+                );
+            }
+
+
+            // The product backend answer 400(validation) and 404 ( unknown category ) with plain text, not JSON
+            // so we read the body with text() instead of json()
+
+            if ( response.status === 400 || response.status === 404) {
+                let serverMessage = "";
+                try {
+                    serverMessage = await response.text();
+
+                } catch {
+                    // Ignore: we fall back to the generic message below. 
+
+                } 
+
+                throw new ApiError (
+                    serverMessage || `Could not create the product ( status code: ${ response.status})`,
+                    response.status,
+                );
+
+            }
+
+
+            throw new ApiError(
+                    `Could not create the product (status code: ${response.status})`,
+                    response.status,
+                );   
+        }
+
+        const createdProduct: Product = await response.json();
+        return createdProduct;
+
+
+    };

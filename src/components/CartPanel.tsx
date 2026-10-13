@@ -3,7 +3,8 @@ import { useState } from "react";
 import { useCart } from "../context/CartContext";
 import "../styles/CartPanel.css"
 import { ApiError } from "../errors/ApiError";
-import { useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router";
+
 
 
 const formatPrice = (value: number ) =>
@@ -120,7 +121,7 @@ export default function CartPanel () {
 
                             </div>
 
-                            <div className="cart-pnael__item-row">
+                            <div className="cart-panel__item-row">
                             <div className="cart-panel__quantity">
                                 <button
                                 type="button"

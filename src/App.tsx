@@ -7,6 +7,7 @@ import WelcomeLoginPage from "./pages/WelcomeLoginPage";
 import ProductPage from "./pages/ProductPage";
 import Footer from "./components/Footer";
 import CartPanel from "./components/CartPanel";
+import CartNotification from"./components/CartNotification";
 import NotFoundPage from "./pages/NotFoundPage";
 import HomePage from "./pages/HomePage";
 import ShowProductPage from "./pages/ShowProductPage";
@@ -18,6 +19,7 @@ const App = () => {
     <>
       <Header />
       <CartPanel />
+      <CartNotification />
       <main>
         <Routes>
           <Route path="/" element={< HomePage />} />
@@ -28,10 +30,10 @@ const App = () => {
           <Route element={<ProtectedRoute />}>
             <Route path="/welcome" element={<WelcomeLoginPage />} />
           </Route>
-          <Route path="*" element={<NotFoundPage />} />
-          <Route element={<AdminRoute />}>
+           <Route element={<AdminRoute />}>
           <Route path="/admin"element={
             <AdminProductPage />}/></Route>
+          <Route path="*" element={<NotFoundPage />} />
         </Routes>
       </main>
       <Footer />
