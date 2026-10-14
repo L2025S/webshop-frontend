@@ -3,38 +3,34 @@ import type { OrderRequest } from "../types/OrderRequest";
 import { ApiError } from "../errors/ApiError";
 
 const ORDER_SERVICE_URL =
-    import.meta.env.VITE_ORDER_SERVICE_URL || "http://localhost:8082";
+  import.meta.env.VITE_ORDER_SERVICE_URL || "http://localhost:8082";
 
 export async function createOrder(orderRequest: OrderRequest): Promise<Order> {
+  let response: Response;
 
-    let response: Response;
+  try {
+    response = await fetch(`${ORDER_SERVICE_URL}/order`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      credentials: "include",
+      body: JSON.stringify(orderRequest),
+    });
+  } catch (networkError) {
+    console.error(networkError);
 
-    try {
-        response = await fetch(`${ORDER_SERVICE_URL}/orders`, {
-            method: "POST",
-            credentials: "include",
-            headers: {
-                "Content-Type": "application/json",
-            },
-            body: JSON.stringify(orderRequest),
-        });
+    throw new ApiError("Could not connect to the Order Service.");
+  }
 
-    } catch (networkError) {
-        console.error(networkError);
+  if (!response.ok) {
+    throw new ApiError(
+      `Failed to create order (status code: ${response.status})`,
+      response.status,
+    );
+  }
 
-        throw new ApiError(
-            "Could not connect to the Order Service."
-        );
-    }
+  const data: Order = await response.json();
 
-    if (!response.ok) {
-        throw new ApiError(
-            `Failed to create order (status code: ${response.status})`,
-            response.status
-        );
-    }
-
-    const data: Order = await response.json();
-
-    return data;
+  return data;
 }
