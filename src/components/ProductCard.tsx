@@ -2,6 +2,7 @@ import { useState } from "react";
 import type { Product } from "../types/Product";
 import "../styles/ProductCard.css";
 import "../styles/Category.css";
+import { Link } from "react-router-dom";
 
 type ProductCardProps = {
     product: Product;
@@ -30,11 +31,14 @@ export default function ProductCard({product, onAddToCart}: ProductCardProps){
 
     return(
         <li className="product-card">
-               <img 
-            src={product.imageUrl || "/placeholder-product.png"}
-            alt={product.name}
-            className="product-card__image"
-             />
+            <Link to={`/product/${product.id}`}>
+                <img 
+                    src={product.imageUrl || "/placeholder-product.png"}
+                    alt={product.name}
+                    className="product-card__image"
+                />
+            </Link>
+            
             <h2 className="product-card__name">{product.name}</h2>
             <span
             className={
