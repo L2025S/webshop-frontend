@@ -1,10 +1,12 @@
 import { useEffect, useState } from "react";
-import { fetchAllProducts } from "../services/productService";
+import { fetchAllProducts, deleteProduct } from "../services/productService";
 import type { Product } from "../types/Product";
 import "../styles/ProductPage.css";
 import "../styles/ProductCard.css";
+import "../styles/AdminPage.css";
 import { ApiError } from "../errors/ApiError";
 import ProductForm from "../components/ProductForm";
+
 
 export default function AdminProductPage() {
   const [products, setProducts] = useState<Product[]>([]);
@@ -37,6 +39,20 @@ export default function AdminProductPage() {
     setProducts((currentProducts) => [createdProduct, ...currentProducts]);
   }
 
+  async function handleDelete(product: Product) {
+  try {
+    await deleteProduct(product.id);
+
+    setProducts((currentProducts) =>
+      currentProducts.filter(
+        (currentProduct) => currentProduct.id !== product.id
+      )
+    );
+  } catch (error) {
+    console.error(error);
+  }
+}
+
   return (
     <div className="product-page">
 
@@ -57,7 +73,14 @@ export default function AdminProductPage() {
       <ul className="product-grid">
 
         {products.map((product) => (
-          <li className="product-card" key={product.id}>
+          <li className="product-card admin-product-card" key={product.id}>
+            <button
+              type="button"
+              className="admin-product-card__delete"
+              onClick={() => handleDelete(product)}
+            >
+            Delete
+            </button>
 
             <img
               src={product.imageUrl || "/placeholder-product.png"}

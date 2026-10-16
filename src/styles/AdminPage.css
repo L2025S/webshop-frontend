@@ -1,0 +1,11 @@
+.admin-product-card {
+  position: relative;
+}
+
+.admin-product-card__delete {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  z-index: 2;
+  cursor: pointer;
+}
