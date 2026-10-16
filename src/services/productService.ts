@@ -148,3 +148,20 @@ export async function createProduct ( newProduct: ProductRequest, ) : Promise<Pr
 
 
     };
+    
+    export async function deleteProduct(id: number): Promise<void> {
+    const response = await fetch(
+        `${PRODUCT_SERVICE_URL}/products/${id}`,
+        {
+            method: "DELETE",
+            credentials: "include",
+        }
+    );
+
+    if (!response.ok) {
+        throw new ApiError(
+            `Failed to delete product (status code: ${response.status})`,
+            response.status
+        );
+      }
+    }
