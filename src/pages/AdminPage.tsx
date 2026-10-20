@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { fetchAllProducts, deleteProduct } from "../services/productService";
+import { fetchAllProducts, deleteProduct, increaseProductStock, decreaseProductStock } from "../services/productService";
 import type { Product } from "../types/Product";
 import "../styles/ProductPage.css";
 import "../styles/ProductCard.css";
@@ -12,6 +12,8 @@ export default function AdminProductPage() {
   const [products, setProducts] = useState<Product[]>([]);
 
   const [error, setError] = useState<string | null>(null);
+  const [editingProductId, setEditingProductId] = useState<number | null>(null);
+  const [stockValue, setStockValue] = useState(0);
 
   // Loads all products when the page opens
   useEffect(() => {
@@ -48,6 +50,54 @@ export default function AdminProductPage() {
         (currentProduct) => currentProduct.id !== product.id
       )
     );
+  } catch (error) {
+    console.error(error);
+  }
+  
+}
+function handleEditStock(product: Product) {
+  setEditingProductId(product.id);
+  setStockValue(product.stock);
+}
+async function handleStockSave(product: Product) {
+  if (stockValue < 0) {
+    return;
+  }
+
+  if (stockValue === product.stock) {
+    setEditingProductId(null);
+    return;
+  }
+
+  try {
+    let updatedProduct: Product;
+
+    if (stockValue > product.stock) {
+      const quantity = stockValue - product.stock;
+
+      updatedProduct = await increaseProductStock(
+        product.uuid,
+        quantity
+      );
+    } else {
+      const quantity = product.stock - stockValue;
+
+      updatedProduct = await decreaseProductStock(
+        product.uuid,
+        quantity
+      );
+    }
+
+    setProducts((currentProducts) =>
+      currentProducts.map((currentProduct) =>
+        currentProduct.id === product.id
+          ? updatedProduct
+          : currentProduct
+      )
+    );
+
+    setEditingProductId(null);
+
   } catch (error) {
     console.error(error);
   }
@@ -125,6 +175,34 @@ export default function AdminProductPage() {
                   : `${product.stock} in stock`}
               </span>
             </div>
+            {editingProductId === product.id ? (
+              <div className="admin-stock-edit">
+
+                <input
+                  type="number"
+                  min="0"
+                  value={stockValue}
+                  onChange={(event) =>
+                    setStockValue(Number(event.target.value))
+                  }
+                />
+
+                <button
+                  type="button"
+                  onClick={() => handleStockSave(product)}
+                >
+                  Save
+                </button>
+
+              </div>
+            ) : (
+              <button
+                type="button"
+                onClick={() => handleEditStock(product)}
+              >
+              Edit Stock
+            </button>
+          )}
 
           </li>
         ))}
