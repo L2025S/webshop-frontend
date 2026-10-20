@@ -330,7 +330,7 @@ export default function ProductForm ({
                 <div className="admin-form__field">
                     <label htmlFor={`${formId}-price`}>Price (SEK) *</label>
                     <input
-                    id={`{formId}-price`}
+                    id={`${formId}-price`}
                      type="text" 
                      inputMode="decimal"
                      placeholder="99.90"
@@ -348,6 +348,30 @@ export default function ProductForm ({
                         </p>
                     )}
                 </div>
+            </div>
+
+            {/* The Stock input field */}
+            <div className="admin-form__field">
+                <label htmlFor={`${formId}-stock`}>Stock *</label>
+                <input 
+                id={`${formId}-stock`}
+                type="text"
+                inputMode="numeric"
+                placeholder="0"
+                value={formValues.stock}
+                onChange={(event)=>updateField("stock", event.target.value)}
+                ref={(element)=>{
+                    fieldRefs.current.stock = element;
+                }}
+                aria-invalid={fieldErrors.stock ? true: undefined}
+                aria-describedby={fieldErrors.stock ? `${formId}-stock-error`: undefined}
+                 />
+                 {fieldErrors.stock && (
+                    <p id={`${formId}-stock-error`} className="admin-form__error">
+                        {fieldErrors.stock}
+                    </p>
+                 )}
+
             </div>
 
 
