@@ -4,7 +4,7 @@ export type LoginRequest = {
 };
 
 export type LoginResponse = {
-  accessToken: string;
+  //accessToken: string;
   expiresIn: number;
   subject: string;
   roles: string[];
