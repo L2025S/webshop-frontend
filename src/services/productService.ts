@@ -165,3 +165,48 @@ export async function createProduct ( newProduct: ProductRequest, ) : Promise<Pr
         );
       }
     }
+    // Increases the stock of a product
+export async function increaseProductStock(
+  uuid: string,
+  quantity: number
+): Promise<Product> {
+  const response = await fetch(
+    `${PRODUCT_SERVICE_URL}/products/${uuid}/stock/increase?quantity=${quantity}`,
+    {
+      method: "PATCH",
+      credentials: "include",
+    }
+  );
+
+  if (!response.ok) {
+    throw new ApiError(
+      `Failed to increase stock (status code: ${response.status})`,
+      response.status
+    );
+  }
+
+  return await response.json();
+}
+
+// Decreases the stock of a product
+export async function decreaseProductStock(
+  uuid: string,
+  quantity: number
+): Promise<Product> {
+  const response = await fetch(
+    `${PRODUCT_SERVICE_URL}/products/${uuid}/stock/reduce?quantity=${quantity}`,
+    {
+      method: "PATCH",
+      credentials: "include",
+    }
+  );
+
+  if (!response.ok) {
+    throw new ApiError(
+      `Failed to decrease stock (status code: ${response.status})`,
+      response.status
+    );
+  }
+
+  return await response.json();
+}
