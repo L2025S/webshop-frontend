@@ -6,12 +6,27 @@ import "./styles/Styles.css";
 import "./styles/index.css";
 import { CartProvider } from "./context/CartContext.tsx";
 
-createRoot(document.getElementById("root")!).render(
-  <StrictMode>
-    <BrowserRouter>
-      <CartProvider>
-      <App />
-      </CartProvider>
-    </BrowserRouter>
-  </StrictMode>,
-);
+async function enableMocking() {
+  if (import.meta.env.VITE_ENABLE_MSW !== "true") {
+    return;
+  }
+
+  const { worker } = await import("./mocks/browser");
+
+  await worker.start();
+}
+
+async function bootstrap() {
+  await enableMocking();
+
+  createRoot(document.getElementById("root")!).render(
+    <StrictMode>
+      <BrowserRouter>
+        <CartProvider>
+          <App />
+        </CartProvider>
+      </BrowserRouter>
+    </StrictMode>,
+  );
+}
+bootstrap();
