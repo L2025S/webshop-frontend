@@ -2,7 +2,7 @@ export const mockUsers = {
   id: "1",
   username: "john_doe@example.com",
   password: "password123",
-  role: "admin",
+  role: "ADMIN",
   dateOfBirth: "1990-01-01",
   createdBy: "system",
 };

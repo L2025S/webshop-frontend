@@ -1,4 +1,4 @@
-import { Navigate, Outlet } from "react-router";
+import { Navigate, Outlet } from "react-router-dom";
 import { isAuthenticated } from "../services/authService.ts";
 
 // Protects routes that require authentication
