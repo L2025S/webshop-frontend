@@ -4,24 +4,31 @@ import { login } from "../services/authService.ts";
 import "../styles/loginPage.css";
 
 function Login() {
+  // Store the username entered in the login form
   const [username, setUsername] = useState("");
+
+  // Store the password entered in the login form
   const [password, setPassword] = useState("");
+
+  // Store an error message to display if login fails
   const [error, setError] = useState("");
 
+  // Provides navigation to other pages after login
   const navigate = useNavigate();
 
   // Handle the login form submission
   async function handleSubmit(e: React.FormEvent) {
+    // Prevent the browser from reloading the page when the form is submitted
     e.preventDefault();
 
     try {
-      // Log in and store the access token
+      // Authenticate the user using the entered credentials
       await login({ username, password });
 
       // Navigate to the welcome page after successful login
       navigate("/welcome");
     } catch (error) {
-      // Display an error message if login fails
+      // Log the error for debugging and display a message to the user
       console.error("Login failed:", error);
       setError("Inloggningen misslyckades");
     }
@@ -35,6 +42,7 @@ function Login() {
           <p>Log in to continue</p>
         </div>
 
+        {/* Submit the form when the user clicks the login button or presses Enter */}
         <form onSubmit={handleSubmit} className="login-form">
           <div className="form-group">
             <label htmlFor="username">Username</label>
@@ -42,6 +50,7 @@ function Login() {
               id="username"
               type="text"
               placeholder="Enter your username"
+              // Keep the input value synchronized with the username state
               value={username}
               onChange={(e) => setUsername(e.target.value)}
             />
@@ -53,12 +62,13 @@ function Login() {
               id="password"
               type="password"
               placeholder="Enter your password"
+              // Keep the input value synchronized with the password state
               value={password}
               onChange={(e) => setPassword(e.target.value)}
             />
           </div>
 
-          {/* Show the error message when login fails */}
+          {/* Display the error message only when one exists */}
           {error && <p className="login-error">{error}</p>}
 
           <button type="submit" className="login-button">
