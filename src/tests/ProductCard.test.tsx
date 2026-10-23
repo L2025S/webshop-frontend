@@ -1,5 +1,5 @@
 import { render, screen, fireEvent } from "@testing-library/react";
-import {  beforeEach, describe, expect, it, vi } from "vitest";
+import { beforeEach, describe, expect, it, vi } from "vitest";
 import ProductCard from "../components/ProductCard";
 import type { Product } from "../types/Product";
 import { MemoryRouter } from "react-router-dom";
@@ -13,23 +13,23 @@ describe("ProductCard", () => {
     price: 299,
     description: "This is a test product",
     stock: 4,
-    category:null,
+    category: null,
     createdAt: "2026-09-25T10:00:00",
     updatedAt: "2026-09-25T10:00:00",
   };
 
   let onAddToCart: (product: Product, quantity: number) => void;
-  
-  beforeEach(() => { 
-    onAddToCart = vi.fn<(product: Product, quantity: number) => void>(); 
+
+  beforeEach(() => {
+    onAddToCart = vi.fn<(product: Product, quantity: number) => void>();
   });
 
   it("displays product details correctly", () => {
     render(
-    <MemoryRouter>
-      <ProductCard product={product} onAddToCart={onAddToCart} />
-    </MemoryRouter>
-  );
+      <MemoryRouter>
+        <ProductCard product={product} onAddToCart={onAddToCart} />
+      </MemoryRouter>,
+    );
 
     expect(screen.getByText("Test Product")).toBeInTheDocument();
     expect(screen.getByText("This is a test product")).toBeInTheDocument();
@@ -41,7 +41,7 @@ describe("ProductCard", () => {
     render(
       <MemoryRouter>
         <ProductCard product={product} onAddToCart={onAddToCart} />
-      </MemoryRouter>
+      </MemoryRouter>,
     );
 
     const addButton = screen.getByRole("button", { name: /add to cart/i });
@@ -54,7 +54,7 @@ describe("ProductCard", () => {
     render(
       <MemoryRouter>
         <ProductCard product={product} onAddToCart={onAddToCart} />
-      </MemoryRouter>
+      </MemoryRouter>,
     );
 
     const increaseButton = screen.getByRole("button", {
@@ -73,7 +73,7 @@ describe("ProductCard", () => {
     render(
       <MemoryRouter>
         <ProductCard product={product} onAddToCart={onAddToCart} />
-      </MemoryRouter>
+      </MemoryRouter>,
     );
 
     const increaseButton = screen.getByRole("button", {
@@ -97,7 +97,7 @@ describe("ProductCard", () => {
     render(
       <MemoryRouter>
         <ProductCard product={product} onAddToCart={onAddToCart} />
-      </MemoryRouter>
+      </MemoryRouter>,
     );
 
     const increaseButton = screen.getByRole("button", {
@@ -119,7 +119,7 @@ describe("ProductCard", () => {
     render(
       <MemoryRouter>
         <ProductCard product={outOfStockProduct} onAddToCart={onAddToCart} />
-      </MemoryRouter>
+      </MemoryRouter>,
     );
 
     expect(screen.getByText("Out of Stock")).toBeInTheDocument();

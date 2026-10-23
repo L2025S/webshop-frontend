@@ -1,13 +1,13 @@
 import "./styles/Styles.css";
 import Header from "./components/Header";
-import { Route, Routes } from "react-router";
+import { Route, Routes } from "react-router-dom";
 import LoginPage from "./pages/loginPage";
 import ProtectedRoute from "./components/ProtectedRoute";
 import WelcomeLoginPage from "./pages/WelcomeLoginPage";
 import ProductPage from "./pages/ProductPage";
 import Footer from "./components/Footer";
 import CartPanel from "./components/CartPanel";
-import CartNotification from"./components/CartNotification";
+import CartNotification from "./components/CartNotification";
 import NotFoundPage from "./pages/NotFoundPage";
 import HomePage from "./pages/HomePage";
 import ShowProductPage from "./pages/ShowProductPage";
@@ -22,7 +22,7 @@ const App = () => {
       <CartNotification />
       <main>
         <Routes>
-          <Route path="/" element={< HomePage />} />
+          <Route path="/" element={<HomePage />} />
           <Route path="/login" element={<LoginPage />} />
           <Route path="/products" element={<ProductPage />} />
           <Route path="/product/:id" element={<ShowProductPage />} />
@@ -30,9 +30,9 @@ const App = () => {
           <Route element={<ProtectedRoute />}>
             <Route path="/welcome" element={<WelcomeLoginPage />} />
           </Route>
-           <Route element={<AdminRoute />}>
-          <Route path="/admin"element={
-            <AdminProductPage />}/></Route>
+          <Route element={<AdminRoute />}>
+            <Route path="/admin" element={<AdminProductPage />} />
+          </Route>
           <Route path="*" element={<NotFoundPage />} />
         </Routes>
       </main>

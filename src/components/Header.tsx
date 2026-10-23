@@ -1,9 +1,7 @@
-import { Link, useLocation, useNavigate } from "react-router";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { isAuthenticated, logout } from "../services/authService";
 import { useEffect, useState } from "react";
 import { useCart } from "../context/CartContext";
-
-
 
 function Header() {
   const navigate = useNavigate();
@@ -24,30 +22,25 @@ function Header() {
   return (
     <header className="header">
       <nav className="header-nav">
-        <Link to="/">
-          Home
-        </Link>
+        <Link to="/">Home</Link>
 
-        <Link to="/products">
-          Products
-        </Link>
-        <Link to="/admin">
-        Admin
-        </Link>
+        <Link to="/products">Products</Link>
+        <Link to="/admin">Admin</Link>
 
-        <button type="button" className="header-cart-button" onClick={toggleCart}>
+        <button
+          type="button"
+          className="header-cart-button"
+          onClick={toggleCart}
+        >
           Cart({totalCount})
         </button>
 
-  
         {authenticated ? (
           <button onClick={handleLogout} className="nav__button">
             Logout
           </button>
         ) : (
-          <Link to="/login">
-            Login
-          </Link>
+          <Link to="/login">Login</Link>
         )}
       </nav>
     </header>

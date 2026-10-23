@@ -1,8 +1,7 @@
-
 import { describe, it, expect, vi, beforeEach } from "vitest";
 import { render, screen, waitFor } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
-import { MemoryRouter, Routes, Route } from "react-router";
+import { MemoryRouter, Routes, Route } from "react-router-dom";
 import Login from "../pages/loginPage";
 import { login } from "../services/authService";
 
@@ -19,7 +18,7 @@ function renderLogin() {
         <Route path="/login" element={<Login />} />
         <Route path="/welcome" element={<h1>Welcome page</h1>} />
       </Routes>
-    </MemoryRouter>
+    </MemoryRouter>,
   );
 }
 
@@ -32,19 +31,15 @@ describe("Login component", () => {
     renderLogin();
 
     expect(
-      screen.getByRole("heading", { name: "Welcome back" })
+      screen.getByRole("heading", { name: "Welcome back" }),
     ).toBeInTheDocument();
 
-    expect(
-      screen.getByLabelText("Username")
-    ).toBeInTheDocument();
+    expect(screen.getByLabelText("Username")).toBeInTheDocument();
+
+    expect(screen.getByLabelText("Password")).toBeInTheDocument();
 
     expect(
-      screen.getByLabelText("Password")
-    ).toBeInTheDocument();
-
-    expect(
-      screen.getByRole("button", { name: "Logga in" })
+      screen.getByRole("button", { name: "Logga in" }),
     ).toBeInTheDocument();
   });
 
@@ -53,21 +48,13 @@ describe("Login component", () => {
 
     renderLogin();
 
-    await user.type(
-      screen.getByLabelText("Username"),
-      "testuser"
-    );
+    await user.type(screen.getByLabelText("Username"), "testuser");
 
-    await user.type(
-      screen.getByLabelText("Password"),
-      "password123"
-    );
+    await user.type(screen.getByLabelText("Password"), "password123");
 
-    expect(screen.getByLabelText("Username"))
-      .toHaveValue("testuser");
+    expect(screen.getByLabelText("Username")).toHaveValue("testuser");
 
-    expect(screen.getByLabelText("Password"))
-      .toHaveValue("password123");
+    expect(screen.getByLabelText("Password")).toHaveValue("password123");
   });
 
   it("logs in successfully and navigates to the welcome page", async () => {
@@ -79,19 +66,11 @@ describe("Login component", () => {
 
     renderLogin();
 
-    await user.type(
-      screen.getByLabelText("Username"),
-      "testuser"
-    );
+    await user.type(screen.getByLabelText("Username"), "testuser");
 
-    await user.type(
-      screen.getByLabelText("Password"),
-      "password123"
-    );
+    await user.type(screen.getByLabelText("Password"), "password123");
 
-    await user.click(
-      screen.getByRole("button", { name: "Logga in" })
-    );
+    await user.click(screen.getByRole("button", { name: "Logga in" }));
 
     await waitFor(() => {
       expect(mockedLogin).toHaveBeenCalledWith({
@@ -103,7 +82,7 @@ describe("Login component", () => {
     expect(
       await screen.findByRole("heading", {
         name: "Welcome page",
-      })
+      }),
     ).toBeInTheDocument();
   });
 
@@ -118,22 +97,14 @@ describe("Login component", () => {
 
     renderLogin();
 
-    await user.type(
-      screen.getByLabelText("Username"),
-      "wronguser"
-    );
+    await user.type(screen.getByLabelText("Username"), "wronguser");
 
-    await user.type(
-      screen.getByLabelText("Password"),
-      "wrongpassword"
-    );
+    await user.type(screen.getByLabelText("Password"), "wrongpassword");
 
-    await user.click(
-      screen.getByRole("button", { name: "Logga in" })
-    );
+    await user.click(screen.getByRole("button", { name: "Logga in" }));
 
     expect(
-      await screen.findByText("Inloggningen misslyckades")
+      await screen.findByText("Inloggningen misslyckades"),
     ).toBeInTheDocument();
 
     expect(mockedLogin).toHaveBeenCalledWith({
@@ -156,16 +127,14 @@ describe("Login component", () => {
     await user.type(screen.getByLabelText("Username"), "testuser");
     await user.type(screen.getByLabelText("Password"), "wrongpassword");
 
-    await user.click(
-      screen.getByRole("button", { name: "Logga in" })
-    );
+    await user.click(screen.getByRole("button", { name: "Logga in" }));
 
     expect(
-      await screen.findByText("Inloggningen misslyckades")
+      await screen.findByText("Inloggningen misslyckades"),
     ).toBeInTheDocument();
 
     expect(
-      screen.queryByRole("heading", { name: "Welcome page" })
+      screen.queryByRole("heading", { name: "Welcome page" }),
     ).not.toBeInTheDocument();
   });
 });
