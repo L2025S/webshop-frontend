@@ -1,3 +1,4 @@
+  // Mock user data
 export const mockUsers = {
   id: "1",
   username: "john_doe@example.com",
@@ -7,6 +8,7 @@ export const mockUsers = {
   createdBy: "system",
 };
 
+  // Mock product data
 export const mockProducts = [
   {
     id: 1,
