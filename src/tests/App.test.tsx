@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vitest";
 import { render, screen } from "@testing-library/react";
-import { MemoryRouter } from "react-router-dom";
+import { BrowserRouter } from "react-router-dom";
 import { CartProvider } from "../context/CartContext";
 import App from "../App";
 import { http, HttpResponse } from "msw";
@@ -9,12 +9,11 @@ import { mockUsers, mockProducts } from "../mocks/data";
 
 function renderApp() {
   return render(
-    // MemoryRouter is used to provide routing context for the App component during testing.
-    <MemoryRouter initialEntries={["/products"]}>
+    <BrowserRouter>
       <CartProvider>
         <App />
       </CartProvider>
-    </MemoryRouter>,
+    </BrowserRouter>,
   );
 }
 
