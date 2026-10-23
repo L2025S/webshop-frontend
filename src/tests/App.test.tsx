@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vitest";
 import { render, screen } from "@testing-library/react";
-import { BrowserRouter } from "react-router-dom";
+import { MemoryRouter } from "react-router-dom";
 import { CartProvider } from "../context/CartContext";
 import App from "../App";
 import { http, HttpResponse } from "msw";
@@ -9,11 +9,13 @@ import { mockUsers, mockProducts } from "../mocks/data";
 
 function renderApp() {
   return render(
-    <BrowserRouter>
+    // Render the Application within a MemoryRouter to simulate routing in tests.
+    // The initial route is set to "/products" to test the products page.
+    <MemoryRouter initialEntries={["/products"]}>
       <CartProvider>
         <App />
       </CartProvider>
-    </BrowserRouter>,
+    </MemoryRouter>,
   );
 }
 
