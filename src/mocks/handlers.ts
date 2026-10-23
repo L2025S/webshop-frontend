@@ -6,7 +6,7 @@ export const handlers = [
     return HttpResponse.json(mockUsers);
   }),
 
-  http.get("*/gateway/products", () => {
+  http.get("*/gateway/products/all", () => {
     return HttpResponse.json(mockProducts);
   }),
 
