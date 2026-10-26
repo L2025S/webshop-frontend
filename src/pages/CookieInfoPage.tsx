@@ -10,20 +10,6 @@ export default function CookieInfoPage() {
       </Link>
 
       <header className="cookie-info-header">
-        <div className="cookie-info-icon" aria-hidden="true">
-          <svg
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="currentColor"
-            strokeWidth="1.8"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-          >
-            <path d="M12 22s8-4 8-11V5l-8-3-8 3v6c0 7 8 11 8 11z" />
-            <path d="m9 12 2 2 4-4" />
-          </svg>
-        </div>
-
         <span className="cookie-info-eyebrow">
           SECURITY & PRIVACY
         </span>
@@ -120,37 +106,6 @@ export default function CookieInfoPage() {
               </div>
             </li>
           </ol>
-        </article>
-
-        <article className="cookie-info-card">
-          <span className="cookie-section-number">04</span>
-          <h2>What about other protections?</h2>
-          <p>
-            HttpOnly is one layer of security, not a complete
-            security solution. Authentication cookies should
-            also be configured appropriately for your
-            application.
-          </p>
-
-          <ul className="cookie-security-list">
-            <li>
-              <strong>Secure:</strong> Sends the cookie only
-              over HTTPS when enabled.
-            </li>
-            <li>
-              <strong>SameSite:</strong> Helps restrict when
-              browsers send cookies with cross-site requests.
-            </li>
-            <li>
-              <strong>CSRF protection:</strong> Additional
-              safeguards may be needed because browsers
-              automatically attach cookies to requests.
-            </li>
-            <li>
-              <strong>Expiration:</strong> Limits how long
-              the cookie remains valid.
-            </li>
-          </ul>
         </article>
       </div>
 
