@@ -1,5 +1,4 @@
-
-import { Link } from "react-router";
+import { Link } from "react-router-dom";
 import "../styles/Popup.css";
 import type { PopupProps } from "../types/Popup";
 
