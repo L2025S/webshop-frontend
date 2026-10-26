@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { useNavigate } from "react-router";
+import { useNavigate } from "react-router-dom";
 import { getCurrentUser } from "../services/userService.ts";
 import type { User } from "../types/User";
 

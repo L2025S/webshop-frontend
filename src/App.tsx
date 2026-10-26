@@ -1,6 +1,6 @@
 import "./styles/Styles.css";
 import Header from "./components/Header";
-import { Route, Routes } from "react-router";
+import { Route, Routes } from "react-router-dom";
 import LoginPage from "./pages/loginPage";
 import ProtectedRoute from "./components/ProtectedRoute";
 import WelcomeLoginPage from "./pages/WelcomeLoginPage";
