@@ -7,32 +7,64 @@ import WelcomeLoginPage from "./pages/WelcomeLoginPage";
 import ProductPage from "./pages/ProductPage";
 import Footer from "./components/Footer";
 import CartPanel from "./components/CartPanel";
-import CartNotification from"./components/CartNotification";
+import CartNotification from "./components/CartNotification";
 import NotFoundPage from "./pages/NotFoundPage";
 import HomePage from "./pages/HomePage";
 import ShowProductPage from "./pages/ShowProductPage";
 import AdminRoute from "./routes/AdminRoute";
 import AdminProductPage from "./pages/AdminPage";
+import Popup from "./components/CookiePopup";
+import { useState } from "react";
+import CookieInfoPage from "./pages/CookieInfoPage";
 
 const App = () => {
+  // Open the popup automatically if the user has not seen it.
+  const [isPopupOpen, setIsPopupOpen] = useState(
+    () => localStorage.getItem("hasSeenCookieInfo") !== "true",
+  );
+
+  // Close the popup and remember that it has been seen.
+  const closePopup = () => {
+    localStorage.setItem("hasSeenCookieInfo", "true");
+    setIsPopupOpen(false);
+  };
+
   return (
     <>
       <Header />
       <CartPanel />
       <CartNotification />
+      <div className="security-notice">
+        <button
+          className="security-notice-trigger"
+          onClick={() => setIsPopupOpen(true)}
+        >
+          <span aria-hidden="true">🔒</span>
+          How we protect your session
+        </button>
+
+        <Popup isOpen={isPopupOpen} onClose={closePopup}>
+          <p>
+            We use an HttpOnly cookie to help protect your authentication token.
+            This prevents JavaScript from reading the cookie directly, adding an
+            extra layer of security to your session.
+          </p>
+        </Popup>
+      </div>
       <main>
         <Routes>
-          <Route path="/" element={< HomePage />} />
+          <Route path="/" element={<HomePage />} />
           <Route path="/login" element={<LoginPage />} />
           <Route path="/products" element={<ProductPage />} />
           <Route path="/product/:id" element={<ShowProductPage />} />
+          <Route path="/cookie-info" element={<CookieInfoPage />} />
 
           <Route element={<ProtectedRoute />}>
             <Route path="/welcome" element={<WelcomeLoginPage />} />
           </Route>
-           <Route element={<AdminRoute />}>
-          <Route path="/admin"element={
-            <AdminProductPage />}/></Route>
+          <Route element={<AdminRoute />}>
+            <Route path="/admin" element={<AdminProductPage />} />
+          </Route>
           <Route path="*" element={<NotFoundPage />} />
         </Routes>
       </main>
