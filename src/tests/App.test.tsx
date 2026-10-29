@@ -110,5 +110,5 @@ describe("App products tests using MSW", () => {
     expect(
       await screen.findByRole("link", { name: /login/i })
     ).toBeInTheDocument();
-  });
+    });
 });
