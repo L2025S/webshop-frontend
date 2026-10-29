@@ -81,7 +81,7 @@ describe("App products tests using MSW", () => {
 it("shows Logout for a logged in user", async () => {
   // Mock a successful /auth/me response from the gateway.
   server.use(
-    http.get("*/gateway/auth/me", () => {
+    http.get("*/gateway/appusers/me", () => {
       return HttpResponse.json({
         username: "testuser",
         roles: ["USER"],
@@ -102,7 +102,7 @@ it("shows Logout for a logged in user", async () => {
 it("shows Login for a logged out user", async () => {
   // Mock a 401 response from /auth/me.
   server.use(
-    http.get("*/gateway/auth/me", () => {
+    http.get("*/gateway/appusers/me", () => {
       return new HttpResponse(null, {
         status: 401,
       });
