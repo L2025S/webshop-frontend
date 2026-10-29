@@ -34,7 +34,7 @@ describe("App products tests using MSW", () => {
   it("Allows an authenticated user to view products", async () => {
     server.use(
       // Mock a logged in user through the gateway.
-      http.get("*/gateway/auth/me", () => {
+      http.get("*/auth/me", () => {
         return HttpResponse.json({
           username: "testuser",
           roles: ["USER"],
@@ -42,12 +42,12 @@ describe("App products tests using MSW", () => {
       }),
 
       // Mock the products request through the gateway.
-      http.get("*/gateway/products/all", () => {
+      http.get("*/products/all", () => {
         return HttpResponse.json(mockProducts);
       }),
 
       // Mock the categories request through the gateway.
-      http.get("*/gateway/categories/all", () => {
+      http.get("*/categories/all", () => {
         return HttpResponse.json([]);
       }),
     );
@@ -61,7 +61,7 @@ describe("App products tests using MSW", () => {
   it("Displays an error message when the products API fails", async () => {
     server.use(
       // Mock a logged in user.
-      http.get("*/gateway/auth/me", () => {
+      http.get("*/auth/me", () => {
         return HttpResponse.json({
           username: "testuser",
           roles: ["USER"],
@@ -69,7 +69,7 @@ describe("App products tests using MSW", () => {
       }),
 
       // Make the products request fail.
-      http.get("*/gateway/products/all", () => {
+      http.get("*/products/all", () => {
         return HttpResponse.json(
           { message: "Internal Server Error" },
           { status: 500 },
@@ -77,7 +77,7 @@ describe("App products tests using MSW", () => {
       }),
 
       // Categories still load successfully.
-      http.get("*/gateway/categories/all", () => {
+      http.get("*/categories/all", () => {
         return HttpResponse.json([]);
       }),
     );
