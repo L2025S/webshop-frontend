@@ -81,7 +81,7 @@ describe("App products tests using MSW", () => {
   it("shows Logout for a logged in user", async () => {
     server.use(
       // /auth/me succeeds, meaning the user is still logged in.
-      http.get("*/gateway/auth/me", () => {
+      http.get("*/gateway/appusers/me", () => {
         return HttpResponse.json({
           username: "testuser",
           roles: ["USER"],
