@@ -95,6 +95,47 @@ describe("App products tests using MSW", () => {
     expect(
       await screen.findByText(/failed to load products \(status code: 500\)/i),
     ).toBeInTheDocument();
+    it("shows Logout for a logged in user", async () => {
+    // Mock a successful response from the gateway.
+    // This means the user is still logged in.
+    server.use(
+      http.get("*/gateway/auth/me", () => {
+        return HttpResponse.json({
+          username: "testuser",
+          roles: ["USER"],
+        });
+      })
+    );
+
+    // Render the application.
+    renderApp();
+
+    // Check that Logout is shown when the user is logged in.
+    expect(
+      await screen.findByRole("button", { name: /logout/i })
+    ).toBeInTheDocument();
+    });
+
+
+    it("shows Login for a logged out user", async () => {
+      // Mock a 401 response from the gateway.
+      // 401 means the user is not logged in or the token is invalid.
+      server.use(
+       http.get("*/gateway/auth/me", () => {
+        return new HttpResponse(null, {
+          status: 401,
+        });
+      })
+    );
+
+    // Render the application.
+    renderApp();
+
+    // Check that Login is shown when the user is logged out.
+    expect(
+      await screen.findByRole("link", { name: /login/i })
+    ).toBeInTheDocument();
+    });
   });
   
 });
