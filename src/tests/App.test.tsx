@@ -78,58 +78,43 @@ describe("App products tests using MSW", () => {
     ).toBeInTheDocument();
   });
 
-  it("shows Logout for a logged in user", async () => {
-    server.use(
-      // /auth/me succeeds, meaning the user is still logged in.
-      http.get("*/gateway/appusers/me", () => {
-        return HttpResponse.json({
-          username: "testuser",
-          roles: ["USER"],
-        });
-      }),
+it("shows Logout for a logged in user", async () => {
+  // Mock a successful /auth/me response from the gateway.
+  server.use(
+    http.get("*/gateway/auth/me", () => {
+      return HttpResponse.json({
+        username: "testuser",
+        roles: ["USER"],
+      });
+    })
+  );
 
-      // ProductPage also makes these requests when App is rendered.
-      http.get("*/gateway/products/all", () => {
-        return HttpResponse.json(mockProducts);
-      }),
+  // Render the app.
+  renderApp();
 
-      http.get("*/gateway/categories/all", () => {
-        return HttpResponse.json([]);
-      }),
-    );
+  // The user should be treated as logged in.
+  expect(
+    await screen.findByRole("button", { name: /logout/i })
+  ).toBeInTheDocument();
+});
 
-    renderApp();
 
-    // A restored logged in user should see Logout.
-    expect(
-      await screen.findByRole("button", { name: /logout/i }),
-    ).toBeInTheDocument();
-  });
+it("shows Login for a logged out user", async () => {
+  // Mock a 401 response from /auth/me.
+  server.use(
+    http.get("*/gateway/auth/me", () => {
+      return new HttpResponse(null, {
+        status: 401,
+      });
+    })
+  );
 
-  it("shows Login for a logged out user", async () => {
-    server.use(
-      // 401 means the cookie/token is missing or no longer valid.
-      http.get("*/gateway/appusers/me", () => {
-        return new HttpResponse(null, {
-          status: 401,
-        });
-      }),
+  // Render the app.
+  renderApp();
 
-      // ProductPage still makes these requests.
-      http.get("*/gateway/products/all", () => {
-        return HttpResponse.json(mockProducts);
-      }),
-
-      http.get("*/gateway/categories/all", () => {
-        return HttpResponse.json([]);
-      }),
-    );
-
-    renderApp();
-
-    // A user that could not be restored should see Login.
-    expect(
-      await screen.findByRole("link", { name: /login/i }),
-    ).toBeInTheDocument();
-  });
+  // The user should be treated as logged out.
+  expect(
+    await screen.findByRole("link", { name: /login/i })
+  ).toBeInTheDocument();
+});
 });
