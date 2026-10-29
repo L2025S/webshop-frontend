@@ -5,11 +5,12 @@ import { CartProvider } from "../context/CartContext";
 import App from "../App";
 import { http, HttpResponse } from "msw";
 import { server } from "../mocks/server";
-import { mockProducts } from "../mocks/data";
+import { mockUsers, mockProducts } from "../mocks/data";
 
 function renderApp() {
   return render(
-    // Render the application on the products page.
+    // Render the Application within a MemoryRouter to simulate routing in tests.
+    // The initial route is set to "/products" to test the products page.
     <MemoryRouter initialEntries={["/products"]}>
       <CartProvider>
         <App />
@@ -18,8 +19,6 @@ function renderApp() {
   );
 }
 
-// Used only for the authentication tests.
-// it renders without products
 function renderAuthApp() {
   return render(
     <MemoryRouter initialEntries={["/"]}>
@@ -33,42 +32,38 @@ function renderAuthApp() {
 describe("App products tests using MSW", () => {
   it("Allows an authenticated user to view products", async () => {
     server.use(
-      // Mock a logged in user through the gateway.
-      http.get("*/auth/me", () => {
-        return HttpResponse.json({
-          username: "testuser",
-          roles: ["USER"],
-        });
+      http.get("*/appusers/me", () => {
+        // Mock handler for fetching the authenticated user.
+        return HttpResponse.json(mockUsers);
       }),
 
-      // Mock the products request through the gateway.
       http.get("*/products/all", () => {
+        // Mock handler for fetching all products.
         return HttpResponse.json(mockProducts);
       }),
 
-      // Mock the categories request through the gateway.
-      http.get("*/categories/all", () => {
+      http.get("*/gateway/categories/all", () => {
+        // Mock handler for fetching all categories.
         return HttpResponse.json([]);
       }),
     );
 
+    // Render the Application with the mocked API responses.
     renderApp();
 
-    // Check that products are displayed.
+    // Wait for the product name to appear in the document.
+    // Verify that the product name from the mocked products is displayed correctly in the UI.
     expect(await screen.findByText(mockProducts[0].name)).toBeInTheDocument();
   });
 
   it("Displays an error message when the products API fails", async () => {
+    // Simulate a successful response from the user API.
     server.use(
-      // Mock a logged in user.
-      http.get("*/auth/me", () => {
-        return HttpResponse.json({
-          username: "testuser",
-          roles: ["USER"],
-        });
+      http.get("*/appusers/me", () => {
+        return HttpResponse.json(mockUsers);
       }),
 
-      // Make the products request fail.
+      // Simulate a failure response from the products API.
       http.get("*/products/all", () => {
         return HttpResponse.json(
           { message: "Internal Server Error" },
@@ -76,22 +71,23 @@ describe("App products tests using MSW", () => {
         );
       }),
 
-      // Categories still load successfully.
-      http.get("*/categories/all", () => {
+      // Simulate a successful response from the categories API.
+      http.get("*/gateway/categories/all", () => {
         return HttpResponse.json([]);
       }),
     );
 
+    // Render the Application with the mocked API responses.
     renderApp();
 
-    // Check that the product error is displayed.
+    // Wait for the error message to appear in the document.
+    // Verify that the error message is displayed correctly in the UI when the products API fails.
     expect(
       await screen.findByText(/failed to load products \(status code: 500\)/i),
     ).toBeInTheDocument();
   });
 
   it("shows Logout for a logged in user", async () => {
-    // Mock a successful current-user request.
     server.use(
       http.get("*/appusers/me", () => {
         return HttpResponse.json({
@@ -103,7 +99,6 @@ describe("App products tests using MSW", () => {
 
     renderAuthApp();
 
-    // Check that the user is treated as logged in.
     expect(
       await screen.findByRole("button", { name: /logout/i }),
     ).toBeInTheDocument();
@@ -112,7 +107,6 @@ describe("App products tests using MSW", () => {
   it("shows Login for a logged out user", async () => {
     let wasCurrentUserRequested = false;
 
-    // Mock a 401 response for the current-user request.
     server.use(
       http.get("*/appusers/me", () => {
         wasCurrentUserRequested = true;
@@ -126,12 +120,10 @@ describe("App products tests using MSW", () => {
 
     renderAuthApp();
 
-    // Wait until the authentication request has actually happened.
     await waitFor(() =>
       expect(wasCurrentUserRequested).toBe(true),
     );
 
-    // Check that the user is treated as logged out.
     expect(
       screen.getByRole("link", { name: /login/i }),
     ).toBeInTheDocument();
