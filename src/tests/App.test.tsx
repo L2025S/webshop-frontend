@@ -109,7 +109,7 @@ describe("App products tests using MSW", () => {
   it("shows Login for a logged out user", async () => {
     server.use(
       // 401 means the cookie/token is missing or no longer valid.
-      http.get("*/gateway/auth/me", () => {
+      http.get("*/gateway/appusers/me", () => {
         return new HttpResponse(null, {
           status: 401,
         });
